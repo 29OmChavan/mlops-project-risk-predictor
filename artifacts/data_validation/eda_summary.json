@@ -1,0 +1,92 @@
+{
+    "validation_status": true,
+    "drift_detected": false,
+    "train_validation": {
+        "split": "train",
+        "row_count": 1069,
+        "null_counts": {
+            "age": 0,
+            "sex": 0,
+            "bmi": 0,
+            "children": 0,
+            "smoker": 0,
+            "region": 0,
+            "charges": 0
+        },
+        "anomalies": [],
+        "passed": true
+    },
+    "test_validation": {
+        "split": "test",
+        "row_count": 268,
+        "null_counts": {
+            "age": 0,
+            "sex": 0,
+            "bmi": 0,
+            "children": 0,
+            "smoker": 0,
+            "region": 0,
+            "charges": 0
+        },
+        "anomalies": [],
+        "passed": true
+    },
+    "numeric_summary_train": {
+        "age": {
+            "count": 1069.0,
+            "mean": 39.063,
+            "std": 14.05,
+            "min": 18.0,
+            "25%": 26.0,
+            "50%": 39.0,
+            "75%": 51.0,
+            "max": 64.0
+        },
+        "bmi": {
+            "count": 1069.0,
+            "mean": 30.824,
+            "std": 6.086,
+            "min": 15.96,
+            "25%": 26.41,
+            "50%": 30.5,
+            "75%": 34.8,
+            "max": 53.13
+        },
+        "children": {
+            "count": 1069.0,
+            "mean": 1.091,
+            "std": 1.182,
+            "min": 0.0,
+            "25%": 0.0,
+            "50%": 1.0,
+            "75%": 2.0,
+            "max": 5.0
+        },
+        "charges": {
+            "count": 1069.0,
+            "mean": 13355.931,
+            "std": 12135.074,
+            "min": 1121.874,
+            "25%": 4753.637,
+            "50%": 9414.92,
+            "75%": 17178.682,
+            "max": 63770.428
+        }
+    },
+    "categorical_counts_train": {
+        "sex": {
+            "male": 547,
+            "female": 522
+        },
+        "smoker": {
+            "no": 850,
+            "yes": 219
+        },
+        "region": {
+            "southeast": 293,
+            "northeast": 262,
+            "northwest": 258,
+            "southwest": 256
+        }
+    }
+}

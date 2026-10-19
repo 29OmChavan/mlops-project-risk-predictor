@@ -1,0 +1,16 @@
+age:
+  ks_statistic: 0.057
+  p_value: 0.46891
+  drift_detected: false
+bmi:
+  ks_statistic: 0.07656
+  p_value: 0.15259
+  drift_detected: false
+children:
+  ks_statistic: 0.02516
+  p_value: 0.99864
+  drift_detected: false
+charges:
+  ks_statistic: 0.05323
+  p_value: 0.55653
+  drift_detected: false

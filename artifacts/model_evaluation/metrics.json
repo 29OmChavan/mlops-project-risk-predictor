@@ -1,0 +1,26 @@
+{
+    "model_class": "GradientBoostingRegressor",
+    "r2_score": 0.9194,
+    "adjusted_r2": 0.915,
+    "rmse": 3408.05,
+    "mae": 2086.07,
+    "mape_percent": 31.24,
+    "test_samples": 268,
+    "num_transformed_features": 14,
+    "feature_importances": [
+        0.0838,
+        0.0137,
+        0.0109,
+        0.0,
+        0.7262,
+        0.0382,
+        0.0001,
+        0.0001,
+        0.0567,
+        0.0683,
+        0.0013,
+        0.0001,
+        0.0002,
+        0.0006
+    ]
+}

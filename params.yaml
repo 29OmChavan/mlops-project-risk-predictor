@@ -1,0 +1,26 @@
+models:
+  RandomForestRegressor:
+    n_estimators: [100, 200]
+    max_depth: [6, 10]
+    min_samples_split: [2, 5]
+
+  GradientBoostingRegressor:
+    n_estimators: [100, 150]
+    learning_rate: [0.05, 0.1]
+    max_depth: [3, 5]
+
+  XGBRegressor:
+    n_estimators: [100, 150]
+    learning_rate: [0.05, 0.1]
+    max_depth: [3, 5]
+
+  AdaBoostRegressor:
+    n_estimators: [50, 100]
+    learning_rate: [0.05, 0.1, 0.5]
+
+  Ridge:
+    alpha: [0.1, 1.0, 10.0]
+
+  DecisionTreeRegressor:
+    max_depth: [4, 6, 8]
+    min_samples_leaf: [2, 5]

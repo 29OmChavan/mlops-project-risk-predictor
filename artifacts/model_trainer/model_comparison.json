@@ -1,0 +1,79 @@
+{
+    "champion_model": "GradientBoostingRegressor",
+    "champion_test_r2": 0.9194,
+    "champion_params": {
+        "learning_rate": 0.05,
+        "max_depth": 3,
+        "n_estimators": 100
+    },
+    "leaderboard": {
+        "RandomForestRegressor": {
+            "cv_r2": 0.8367,
+            "train_r2": 0.8884,
+            "test_r2": 0.9154,
+            "test_rmse": 3491.39,
+            "test_mae": 2121.84,
+            "best_params": {
+                "max_depth": 6,
+                "min_samples_split": 2,
+                "n_estimators": 200
+            }
+        },
+        "GradientBoostingRegressor": {
+            "cv_r2": 0.8422,
+            "train_r2": 0.8797,
+            "test_r2": 0.9194,
+            "test_rmse": 3408.05,
+            "test_mae": 2086.07,
+            "best_params": {
+                "learning_rate": 0.05,
+                "max_depth": 3,
+                "n_estimators": 100
+            }
+        },
+        "XGBRegressor": {
+            "cv_r2": 0.8436,
+            "train_r2": 0.8742,
+            "test_r2": 0.9186,
+            "test_rmse": 3425.61,
+            "test_mae": 2120.54,
+            "best_params": {
+                "learning_rate": 0.05,
+                "max_depth": 3,
+                "n_estimators": 100
+            }
+        },
+        "AdaBoostRegressor": {
+            "cv_r2": 0.8161,
+            "train_r2": 0.8296,
+            "test_r2": 0.8763,
+            "test_rmse": 4222.23,
+            "test_mae": 3364.26,
+            "best_params": {
+                "learning_rate": 0.05,
+                "n_estimators": 50
+            }
+        },
+        "Ridge": {
+            "cv_r2": 0.8437,
+            "train_r2": 0.8498,
+            "test_r2": 0.9177,
+            "test_rmse": 3445.29,
+            "test_mae": 2163.42,
+            "best_params": {
+                "alpha": 10.0
+            }
+        },
+        "DecisionTreeRegressor": {
+            "cv_r2": 0.831,
+            "train_r2": 0.8524,
+            "test_r2": 0.9087,
+            "test_rmse": 3628.82,
+            "test_mae": 2335.75,
+            "best_params": {
+                "max_depth": 4,
+                "min_samples_leaf": 5
+            }
+        }
+    }
+}

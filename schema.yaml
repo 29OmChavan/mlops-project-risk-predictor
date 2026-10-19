@@ -1,0 +1,38 @@
+columns:
+  age: int64
+  sex: object
+  bmi: float64
+  children: int64
+  smoker: object
+  region: object
+  charges: float64
+
+numerical_columns:
+  - age
+  - bmi
+  - children
+
+categorical_columns:
+  - sex
+  - smoker
+  - region
+
+target_column:
+  name: charges
+
+constraints:
+  age:
+    min: 18
+    max: 100
+  bmi:
+    min: 10.0
+    max: 70.0
+  children:
+    min: 0
+    max: 10
+  sex:
+    allowed: ["female", "male"]
+  smoker:
+    allowed: ["yes", "no"]
+  region:
+    allowed: ["southwest", "southeast", "northwest", "northeast"]

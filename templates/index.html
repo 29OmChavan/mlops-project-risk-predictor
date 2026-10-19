@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production MLOps · Medical & Financial Risk Predictor</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --green: #3fb950;
+            --orange: #ffa657;
+            --red: #ff7b72;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 40px 20px; line-height: 1.6; }
+        .container { max-width: 920px; margin: 0 auto; }
+        .header { margin-bottom: 28px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .tag { color: var(--accent); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+        h1 { font-size: 28px; margin-top: 6px; }
+        .subtitle { color: var(--muted); font-size: 14px; margin-top: 4px; }
+        .grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; }
+        @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+        .card h2 { font-size: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+        label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 600; }
+        input, select {
+            width: 100%; padding: 10px 12px; border-radius: 6px;
+            border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 14px;
+        }
+        button {
+            width: 100%; padding: 12px; background: var(--accent); color: #0d1117;
+            border: none; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 8px;
+        }
+        button:hover { opacity: 0.92; }
+        .result-box {
+            margin-top: 16px; padding: 18px; border-radius: 8px;
+            background: rgba(88, 166, 255, 0.08); border: 1px solid var(--accent);
+        }
+        .price { font-size: 32px; font-weight: 700; color: var(--accent); }
+        .tier { display: inline-block; padding: 3px 10px; border-radius: 14px; font-size: 12px; font-weight: 600; margin-top: 6px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-val { font-weight: 600; color: var(--green); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="tag">Project 01 · End-to-End MLOps Pipeline</div>
+        <h1>Medical Insurance & Financial Risk Predictor</h1>
+        <div class="subtitle">Served via FastAPI · Tracked with MLflow & DagsHub · Containerized with Docker</div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h2>Enter Beneficiary Risk Profile</h2>
+            <form action="/predict-form" method="post">
+                <div class="form-row">
+                    <div>
+                        <label>Age (18–100)</label>
+                        <input type="number" name="age" min="18" max="100" value="{{ form_data.age if form_data else 34 }}" required>
+                    </div>
+                    <div>
+                        <label>Biological Sex</label>
+                        <select name="sex">
+                            <option value="male" {% if form_data and form_data.sex == 'male' %}selected{% endif %}>Male</option>
+                            <option value="female" {% if form_data and form_data.sex == 'female' %}selected{% endif %}>Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>BMI (kg/m²)</label>
+                        <input type="number" step="0.1" name="bmi" min="10" max="70" value="{{ form_data.bmi if form_data else 31.5 }}" required>
+                    </div>
+                    <div>
+                        <label>Number of Children / Dependents</label>
+                        <input type="number" name="children" min="0" max="10" value="{{ form_data.children if form_data else 2 }}" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>Smoker Status</label>
+                        <select name="smoker">
+                            <option value="no" {% if form_data and form_data.smoker == 'no' %}selected{% endif %}>No (Non-Smoker)</option>
+                            <option value="yes" {% if form_data and form_data.smoker == 'yes' %}selected{% endif %}>Yes (Smoker)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Residential Region</label>
+                        <select name="region">
+                            <option value="southeast" {% if form_data and form_data.region == 'southeast' %}selected{% endif %}>Southeast</option>
+                            <option value="southwest" {% if form_data and form_data.region == 'southwest' %}selected{% endif %}>Southwest</option>
+                            <option value="northeast" {% if form_data and form_data.region == 'northeast' %}selected{% endif %}>Northeast</option>
+                            <option value="northwest" {% if form_data and form_data.region == 'northwest' %}selected{% endif %}>Northwest</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit">Calculate Predicted Risk & Annual Cost</button>
+            </form>
+
+            {% if result %}
+            <div class="result-box">
+                <div style="font-size:12px; color:var(--muted);">Estimated Annual Medical Risk Exposure</div>
+                <div class="price">${{ "{:,.2f}".format(result.predicted_charges_usd) }}</div>
+                <div class="tier" style="background: rgba(63, 185, 80, 0.15); color: var(--green);">
+                    {{ result.risk_tier }} · Model: {{ result.model_used }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>Champion Model Telemetry (MLflow)</h2>
+            {% if metrics %}
+            <div class="stat-row"><span>Champion Algorithm</span><span class="stat-val">{{ metrics.model_class }}</span></div>
+            <div class="stat-row"><span>Test R² Score</span><span class="stat-val">{{ metrics.r2_score }}</span></div>
+            <div class="stat-row"><span>Adjusted R²</span><span class="stat-val">{{ metrics.adjusted_r2 }}</span></div>
+            <div class="stat-row"><span>Root Mean Squared Error (RMSE)</span><span class="stat-val">${{ "{:,.2f}".format(metrics.rmse) }}</span></div>
+            <div class="stat-row"><span>Mean Absolute Error (MAE)</span><span class="stat-val">${{ "{:,.2f}".format(metrics.mae) }}</span></div>
+            <div class="stat-row"><span>Test Set Size</span><span class="stat-val">{{ metrics.test_samples }} records</span></div>
+            {% else %}
+            <p style="color:var(--muted); font-size:13px;">Run the training pipeline to populate evaluation telemetry.</p>
+            {% endif %}
+            <div style="margin-top:20px; font-size:12px; color:var(--muted);">
+                <strong>API Docs:</strong> <a href="/docs" style="color:var(--accent);">/docs (Swagger UI)</a> ·
+                <a href="/health" style="color:var(--accent);">/health</a> ·
+                <a href="/metrics" style="color:var(--accent);">/metrics</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

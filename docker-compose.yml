@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  risk-predictor-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: 29omchavan/mlops-project-1-risk-predictor:latest
+    container_name: risk-predictor-api
+    ports:
+      - "8080:8080"
+    environment:
+      - MLFLOW_TRACKING_URI=https://dagshub.com/29omchavan/mlops-project-1-risk-predictor.mlflow
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

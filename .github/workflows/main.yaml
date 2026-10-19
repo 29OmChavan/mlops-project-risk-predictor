@@ -1,0 +1,102 @@
+name: End-to-End MLOps CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────
+  # JOB 1: Continuous Integration (Lint + Pipeline Run + Unit Tests)
+  # ─────────────────────────────────────────────────────────────────
+  Continuous-Integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint with Flake8 (Syntax & Undefined Names Gate)
+        run: |
+          flake8 src tests app.py main.py --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Run End-to-End Training Pipeline & Pytest Suite
+        env:
+          DISABLE_REMOTE_MLFLOW: "1"
+        run: |
+          python main.py
+          pytest tests/ -v
+
+  # ─────────────────────────────────────────────────────────────────
+  # JOB 2: Continuous Delivery (Build & Push Image to Docker Hub / ECR)
+  # ─────────────────────────────────────────────────────────────────
+  Continuous-Delivery-Docker:
+    needs: Continuous-Integration
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub (if DOCKER_PAT secret is configured)
+        if: env.DOCKER_PAT != ''
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
+        run: |
+          echo "$DOCKER_PAT" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      - name: Build and Push Docker Image to Docker Hub
+        if: env.DOCKER_PAT != ''
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
+        run: |
+          docker build -t $DOCKER_USERNAME/mlops-project-1-risk-predictor:latest .
+          docker push $DOCKER_USERNAME/mlops-project-1-risk-predictor:latest
+
+      - name: Configure AWS Credentials & Push to ECR (Optional AWS Gate)
+        if: env.AWS_ACCESS_KEY_ID != ''
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ECR_LOGIN_URI: ${{ secrets.AWS_ECR_LOGIN_URI }}
+          ECR_REPOSITORY_NAME: ${{ secrets.ECR_REPOSITORY_NAME }}
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ECR_LOGIN_URI
+          docker build -t $AWS_ECR_LOGIN_URI/$ECR_REPOSITORY_NAME:latest .
+          docker push $AWS_ECR_LOGIN_URI/$ECR_REPOSITORY_NAME:latest
+
+  # ─────────────────────────────────────────────────────────────────
+  # JOB 3: Continuous Deployment on AWS EC2 Self-Hosted Runner
+  # (Runs automatically once AWS_ACCESS_KEY_ID & EC2 Runner are active)
+  # ─────────────────────────────────────────────────────────────────
+  Continuous-Deployment-EC2:
+    needs: Continuous-Delivery-Docker
+    if: false # Set to `true` once AWS EC2 self-hosted runner is registered
+    runs-on: self-hosted
+    steps:
+      - name: Pull Latest Image & Restart Container on EC2
+        run: |
+          docker pull 29omchavan/mlops-project-1-risk-predictor:latest
+          docker stop risk-predictor-api || true
+          docker rm risk-predictor-api || true
+          docker run -d -p 8080:8080 --name risk-predictor-api 29omchavan/mlops-project-1-risk-predictor:latest
