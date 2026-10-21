@@ -254,6 +254,14 @@ def _build_common_ui_context(selected_country: str = "USA") -> Dict[str, Any]:
     }
 
 
+@app.get("/intro", response_class=HTMLResponse, tags=["UI Pages"])
+async def intro_page(request: Request, country: str = "USA"):
+    """Page 0: Project Introduction & 'How I Developed It' Engineering Walkthrough."""
+    ctx = _build_common_ui_context(selected_country=country)
+    ctx["active_page"] = "intro"
+    return templates.TemplateResponse(request=request, name="intro.html", context=ctx)
+
+
 @app.get("/", response_class=HTMLResponse, tags=["UI Pages"])
 async def home_page(request: Request, country: str = "USA"):
     """Page 1: Interactive Multi-Country Clinical & Actuarial Underwriting Studio."""

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>What This Project Is & How I Developed It · Project 01 GlobalActuary AI</title>
+    <style>
+        :root {
+            --bg: #0b1120;
+            --card: #111827;
+            --card-alt: #1e293b;
+            --border: #334155;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-2: #6366f1;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at top right, #1e1b4b, #0b1120 55%);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.58;
+        }
+        .navbar {
+            background: rgba(17, 24, 39, 0.92);
+            border-bottom: 1px solid var(--border);
+            padding: 0.85rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .brand { color: var(--text); text-decoration: none; font-weight: 800; font-size: 1.15rem; }
+        .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .nav-link {
+            color: var(--muted);
+            text-decoration: none;
+            padding: 0.5rem 0.95rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .nav-link.active {
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.14);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+        }
+        .container { max-width: 1280px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1.4rem;
+        }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 1.4rem; }
+        @media (max-width: 960px) { .grid-3 { grid-template-columns: 1fr; } }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.8rem; }
+        th, td { padding: 0.65rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { color: var(--muted); }
+        .pill {
+            display: inline-block;
+            padding: 0.2rem 0.65rem;
+            border-radius: 99px;
+            font-size: 0.76rem;
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">GlobalActuary AI · Project 01 Introduction &amp; Architecture</a>
+        <div class="nav-links">
+            <a href="/intro" class="nav-link active">0. Project Intro &amp; How I Built It</a>
+            <a href="/" class="nav-link">1. Underwriting Studio</a>
+            <a href="/analytics" class="nav-link">2. Country Models &amp; Leaderboards</a>
+            <a href="/explainability" class="nav-link">3. Explainable AI &amp; Counterfactuals</a>
+            <a href="/document-vault" class="nav-link">4. Medical Doc Vault (Zero-Retention)</a>
+            <a href="/docs" class="nav-link">OpenAPI / Swagger</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card" style="background: linear-gradient(135deg, rgba(2,132,199,0.18), rgba(99,102,241,0.18)); border-color: var(--accent);">
+            <h1 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Project 01: Multi-Country Health Insurance &amp; Clinical Risk Predictor (`v2.0`)</h1>
+            <p style="font-size: 0.96rem; color: #e2e8f0;">
+                <strong>What This Project Is:</strong> An enterprise-grade Classical ML &amp; Actuarial Underwriting Platform that predicts annual healthcare risk costs across <strong>4 distinct country healthcare ecosystems (USA $, India ₹, UK £, Germany €)</strong>, models <strong>Public vs. Private insurance tiers</strong>, computes BMI dynamically from <strong>Height &amp; Weight</strong>, parses uploaded medical documents in a <strong>Zero-Retention Ephemeral Vault</strong>, and explains every prediction using <strong>SHAP-style marginal coalition attributions</strong> and an <strong>AI Underwriting Agent</strong>.
+            </p>
+        </div>
+
+        <div class="grid-3">
+            <div class="card">
+                <h3 style="font-size: 1.08rem; margin-bottom: 0.45rem; color: var(--accent);">1. Mathematical Foundations From Scratch</h3>
+                <p style="font-size: 0.86rem; color: #cbd5e1;">
+                    Implemented vectorized <strong>Batch Gradient Descent</strong> and the analytical <strong>Normal Equation</strong> $(X^TX+\lambda I)^{-1}X^Ty$ with L2 Ridge regularization in pure NumPy (<code>src/risk_predictor/components/from_scratch.py</code>) before scaling to ensemble tree models.
+                </p>
+            </div>
+            <div class="card">
+                <h3 style="font-size: 1.08rem; margin-bottom: 0.45rem; color: var(--accent);">2. Statistical Data Drift &amp; 5-Stage Pipeline</h3>
+                <p style="font-size: 0.86rem; color: #cbd5e1;">
+                    Built a 5-stage modular pipeline (Data Ingestion &rarr; Two-Sample Kolmogorov-Smirnov <code>ks_2samp</code> Drift Gate &rarr; Custom <code>RiskDomainFeatureGenerator</code> &rarr; 6-Model GridSearchCV Arena tracked on DagsHub MLflow &rarr; Registry Promotion).
+                </p>
+            </div>
+            <div class="card">
+                <h3 style="font-size: 1.08rem; margin-bottom: 0.45rem; color: var(--accent);">3. Multi-Country &amp; Zero-Retention Privacy</h3>
+                <p style="font-size: 0.86rem; color: #cbd5e1;">
+                    Trained dedicated models for <strong>USA</strong> ($R^2=0.9822$), <strong>India</strong> ($R^2=0.9838$), <strong>UK</strong> ($R^2=0.9901$), and <strong>Germany</strong> ($R^2=0.9845$), paired with a HIPAA-style Ephemeral Document Vault that zero-wipes uploaded lab reports in milliseconds.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem;">How I Developed This System Step-by-Step</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Engineering Stage</th>
+                        <th>Key Implementation Details</th>
+                        <th>Verification &amp; Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Stage 1: First-Principles Math</strong></td>
+                        <td>Derived and coded MSE + L2 gradients $\nabla_w \mathcal{L} = -\frac{2}{N}X^T(y-\hat{y}) + 2\lambda w$ and closed-form Ridge solver.</td>
+                        <td>Verified exact convergence against <code>sklearn.linear_model.Ridge</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stage 2: KS Drift &amp; Schema Gate</strong></td>
+                        <td>Implemented <code>scipy.stats.ks_2samp</code> drift checks ($D = \sup_x |F_{\text{train}}(x)-F_{\text{test}}(x)|$) and domain bounds in <code>schema.yaml</code>.</td>
+                        <td>Automated YAML drift reports generated in <code>artifacts/data_validation/</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stage 3: Country-Specific ML Arena</strong></td>
+                        <td>Trained separate <code>GradientBoostingRegressor</code>, <code>RandomForestRegressor</code>, and <code>Ridge</code> pipelines per country with Public vs. Private insurance tiers.</td>
+                        <td>Achieved $R^2 > 0.98$ across all 4 country models and 0.9194 on baseline US test set.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stage 4: Explainable AI &amp; AI Agent</strong></td>
+                        <td>Built SHAP-style marginal coalition waterfall attributions, global permutation importance, counterfactual "What-If" simulator, and AI Underwriting Agent.</td>
+                        <td>Verified across 8 automated <code>pytest</code> unit &amp; integration tests.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
