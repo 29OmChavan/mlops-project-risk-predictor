@@ -1,0 +1,59 @@
+{
+    "country": "Germany",
+    "country_name": "Germany",
+    "currency_code": "EUR",
+    "currency_symbol": "\u20ac",
+    "dataset_rows": 1600,
+    "champion_model": "GradientBoostingRegressor",
+    "r2_score": 0.9845,
+    "rmse": 787.21,
+    "mae": 567.85,
+    "population_mean_charge": 13502.24,
+    "leaderboard": {
+        "GradientBoostingRegressor": {
+            "r2_score": 0.9845,
+            "rmse": 787.21,
+            "mae": 567.85
+        },
+        "RandomForestRegressor": {
+            "r2_score": 0.9463,
+            "rmse": 1465.27,
+            "mae": 1113.12
+        },
+        "RidgeRegressor": {
+            "r2_score": 0.9415,
+            "rmse": 1529.99,
+            "mae": 1118.16
+        }
+    },
+    "top_global_features": {
+        "age": 0.572,
+        "insurance_type": 0.4941,
+        "smoker": 0.3959,
+        "chronic_disease_count": 0.1797,
+        "bmi": 0.0378,
+        "alcohol_consumption": 0.0135,
+        "past_medical_history": 0.0108,
+        "cardiovascular_disease": 0.0102
+    },
+    "available_insurance_tiers": {
+        "Private - Private Krankenversicherung (PKV Full)": {
+            "category": "Private",
+            "multiplier": 1.26,
+            "oop_coverage_pct": 94,
+            "description": "Individual medically underwritten tariff with chief-physician treatment and single rooms."
+        },
+        "Hybrid - GKV + Zusatzversicherung (Supplemental)": {
+            "category": "Hybrid",
+            "multiplier": 1.02,
+            "oop_coverage_pct": 89,
+            "description": "Statutory GKV base coverage plus private supplemental dental/hospital upgrades."
+        },
+        "Public - Gesetzliche Krankenversicherung (GKV)": {
+            "category": "Public",
+            "multiplier": 0.74,
+            "oop_coverage_pct": 85,
+            "description": "Solidarity-based statutory sickness fund with family co-insurance."
+        }
+    }
+}
