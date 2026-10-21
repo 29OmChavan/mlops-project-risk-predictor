@@ -1,0 +1,59 @@
+{
+    "country": "UK",
+    "country_name": "United Kingdom",
+    "currency_code": "GBP",
+    "currency_symbol": "\u00a3",
+    "dataset_rows": 1600,
+    "champion_model": "GradientBoostingRegressor",
+    "r2_score": 0.9901,
+    "rmse": 319.5,
+    "mae": 225.5,
+    "population_mean_charge": 5231.66,
+    "leaderboard": {
+        "GradientBoostingRegressor": {
+            "r2_score": 0.9901,
+            "rmse": 319.5,
+            "mae": 225.5
+        },
+        "RandomForestRegressor": {
+            "r2_score": 0.9756,
+            "rmse": 500.88,
+            "mae": 364.63
+        },
+        "RidgeRegressor": {
+            "r2_score": 0.8975,
+            "rmse": 1027.59,
+            "mae": 735.22
+        }
+    },
+    "top_global_features": {
+        "insurance_type": 1.0225,
+        "age": 0.3791,
+        "smoker": 0.2111,
+        "chronic_disease_count": 0.0973,
+        "bmi": 0.0202,
+        "cardiovascular_disease": 0.006,
+        "past_medical_history": 0.0054,
+        "alcohol_consumption": 0.0034
+    },
+    "available_insurance_tiers": {
+        "Private - Comprehensive PMI (Bupa / AXA)": {
+            "category": "Private",
+            "multiplier": 1.3,
+            "oop_coverage_pct": 92,
+            "description": "Full private hospital, oncology, and fast-track specialist diagnostic coverage."
+        },
+        "Hybrid - NHS + Private Diagnostics Top-Up": {
+            "category": "Hybrid",
+            "multiplier": 0.88,
+            "oop_coverage_pct": 86,
+            "description": "Uses private clinics for rapid MRI/CT diagnostics if NHS wait times exceed 6 weeks."
+        },
+        "Public - NHS Standard + Statutory Co-Pay": {
+            "category": "Public",
+            "multiplier": 0.42,
+            "oop_coverage_pct": 95,
+            "description": "Tax-funded universal NHS acute and primary care with statutory prescription/dental bands."
+        }
+    }
+}
