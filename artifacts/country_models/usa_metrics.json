@@ -1,0 +1,65 @@
+{
+    "country": "USA",
+    "country_name": "United States",
+    "currency_code": "USD",
+    "currency_symbol": "$",
+    "dataset_rows": 1600,
+    "champion_model": "GradientBoostingRegressor",
+    "r2_score": 0.9822,
+    "rmse": 1407.88,
+    "mae": 1003.22,
+    "population_mean_charge": 19671.83,
+    "leaderboard": {
+        "GradientBoostingRegressor": {
+            "r2_score": 0.9822,
+            "rmse": 1407.88,
+            "mae": 1003.22
+        },
+        "RandomForestRegressor": {
+            "r2_score": 0.9566,
+            "rmse": 2198.1,
+            "mae": 1638.47
+        },
+        "RidgeRegressor": {
+            "r2_score": 0.9494,
+            "rmse": 2373.35,
+            "mae": 1707.38
+        }
+    },
+    "top_global_features": {
+        "age": 0.5569,
+        "insurance_type": 0.4894,
+        "smoker": 0.3233,
+        "chronic_disease_count": 0.1454,
+        "bmi": 0.0419,
+        "past_medical_history": 0.0088,
+        "cardiovascular_disease": 0.0081,
+        "alcohol_consumption": 0.0056
+    },
+    "available_insurance_tiers": {
+        "Private - PPO Comprehensive": {
+            "category": "Private",
+            "multiplier": 1.22,
+            "oop_coverage_pct": 88,
+            "description": "Broad nationwide provider network with out-of-network coverage and low co-pays."
+        },
+        "Private - HMO Managed Care": {
+            "category": "Private",
+            "multiplier": 1.0,
+            "oop_coverage_pct": 82,
+            "description": "Primary care gatekeeper model with negotiated in-network hospital rates."
+        },
+        "Private - HDHP + HSA": {
+            "category": "Private",
+            "multiplier": 0.82,
+            "oop_coverage_pct": 70,
+            "description": "Lower annual premium paired with higher deductible and tax-advantaged HSA."
+        },
+        "Public - Medicare / Medicaid ACA": {
+            "category": "Public",
+            "multiplier": 0.58,
+            "oop_coverage_pct": 90,
+            "description": "Federally/state-subsidized public coverage with statutory rate caps."
+        }
+    }
+}

@@ -31,3 +31,5 @@ mlartifacts/
 .idea/
 .DS_Store
 Thumbs.db
+artifacts/tmp_ephemeral_uploads/
+artifacts/country_models/*.pkl

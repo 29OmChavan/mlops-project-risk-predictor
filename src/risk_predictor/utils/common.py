@@ -50,7 +50,7 @@ def write_yaml(path_to_yaml: Path, data: Dict[str, Any]) -> None:
         raise CustomException(e, sys)
 
 
-def create_directories(path_to_directories: List[ Any ], verbose: bool = True) -> None:
+def create_directories(path_to_directories: List[Any], verbose: bool = True) -> None:
     """
     Creates a list of directories on disk.
 
