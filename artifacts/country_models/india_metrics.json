@@ -1,0 +1,65 @@
+{
+    "country": "India",
+    "country_name": "India",
+    "currency_code": "INR",
+    "currency_symbol": "\u20b9",
+    "dataset_rows": 1600,
+    "champion_model": "GradientBoostingRegressor",
+    "r2_score": 0.9838,
+    "rmse": 4378.98,
+    "mae": 2888.03,
+    "population_mean_charge": 55995.83,
+    "leaderboard": {
+        "GradientBoostingRegressor": {
+            "r2_score": 0.9838,
+            "rmse": 4378.98,
+            "mae": 2888.03
+        },
+        "RandomForestRegressor": {
+            "r2_score": 0.9622,
+            "rmse": 6691.64,
+            "mae": 4550.68
+        },
+        "RidgeRegressor": {
+            "r2_score": 0.906,
+            "rmse": 10550.3,
+            "mae": 8088.65
+        }
+    },
+    "top_global_features": {
+        "insurance_type": 0.9669,
+        "age": 0.3576,
+        "smoker": 0.2307,
+        "chronic_disease_count": 0.0837,
+        "bmi": 0.0257,
+        "past_medical_history": 0.0068,
+        "cardiovascular_disease": 0.0055,
+        "alcohol_consumption": 0.0037
+    },
+    "available_insurance_tiers": {
+        "Private - Individual / Family Floater Gold": {
+            "category": "Private",
+            "multiplier": 1.18,
+            "oop_coverage_pct": 85,
+            "description": "Cashless private tertiary hospital network with zero room-rent capping and restoration benefit."
+        },
+        "Private - Corporate Group Medishield": {
+            "category": "Private",
+            "multiplier": 0.95,
+            "oop_coverage_pct": 80,
+            "description": "Employer group health cover with shorter pre-existing disease waiting periods."
+        },
+        "Public - CGHS / ESIC Statutory Scheme": {
+            "category": "Public",
+            "multiplier": 0.52,
+            "oop_coverage_pct": 88,
+            "description": "Central/State employee social security coverage across empanelled hospitals."
+        },
+        "Public - Ayushman Bharat (PM-JAY)": {
+            "category": "Public",
+            "multiplier": 0.35,
+            "oop_coverage_pct": 92,
+            "description": "Government-funded secondary and tertiary hospitalization cover up to \u20b95 Lakh."
+        }
+    }
+}
