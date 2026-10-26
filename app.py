@@ -1,10 +1,10 @@
 """
 FastAPI Production Multi-Country Clinical & Actuarial Risk Platform.
 Provides:
-- GET  /                  : Page 1 — Multi-Country Actuarial & Clinical Underwriting Studio
-- GET  /analytics         : Page 2 — Country ML Models, Datasets & Leaderboard Explorer
-- GET  /explainability    : Page 3 — Explainable AI (SHAP-Style Waterfall & Counterfactual Lab)
-- GET  /document-vault    : Page 4 — Ephemeral Medical Document Parser & Zero-Retention Privacy Audit Log
+- GET  /                  : Page 1 - Multi-Country Actuarial & Clinical Underwriting Studio
+- GET  /analytics         : Page 2 - Country ML Models, Datasets & Leaderboard Explorer
+- GET  /explainability    : Page 3 - Explainable AI (SHAP-Style Waterfall & Counterfactual Lab)
+- GET  /document-vault    : Page 4 - Ephemeral Medical Document Parser & Zero-Retention Privacy Audit Log
 - GET  /health            : Kubernetes / Docker / Load-Balancer readiness & liveness probe
 - GET  /metrics           : Latest model evaluation metrics & country leaderboards
 - GET  /countries         : Supported countries, Public/Private insurance tiers & disease catalog
@@ -37,13 +37,14 @@ from src.risk_predictor.components.explainability_agent import (
 )
 
 app = FastAPI(
-    title="Production MLOps: Multi-Country Health Insurance & Clinical Risk Platform",
+    title="Multi-Country Health Insurance & Actuarial Risk Calculator",
     description=(
-        "End-to-End Multi-Country Actuarial & Clinical Risk Predictor featuring Height/Weight BMI calculation, "
-        "Public vs. Private Insurance Tiers, Chronic Disease Comorbidities, Ephemeral Zero-Retention Medical "
-        "Document Parsing, SHAP-Style Additive Explainability, and an AI Underwriting Explanation Agent."
+        "Health insurance cost estimator with height/weight BMI calculation, "
+        "country-specific models (USA, India, UK, Germany), public/private plan tiers, "
+        "marginal feature attribution, and temporary lab report parsing."
     ),
     version="2.0.0",
+    docs_url="/swagger-raw",
 )
 
 templates = Jinja2Templates(directory="templates")
@@ -256,9 +257,25 @@ def _build_common_ui_context(selected_country: str = "USA") -> Dict[str, Any]:
 
 @app.get("/intro", response_class=HTMLResponse, tags=["UI Pages"])
 async def intro_page(request: Request, country: str = "USA"):
-    """Page 0: Project Introduction & 'How I Developed It' Engineering Walkthrough."""
+    """Page 0: Project Introduction & Developer Notes."""
     ctx = _build_common_ui_context(selected_country=country)
     ctx["active_page"] = "intro"
+    return templates.TemplateResponse(request=request, name="intro.html", context=ctx)
+
+
+@app.get("/help", response_class=HTMLResponse, tags=["UI Pages"])
+async def help_page(request: Request, country: str = "USA"):
+    """Help & Step-by-Step User Guide."""
+    ctx = _build_common_ui_context(selected_country=country)
+    ctx["active_page"] = "help"
+    return templates.TemplateResponse(request=request, name="intro.html", context=ctx)
+
+
+@app.get("/docs", response_class=HTMLResponse, tags=["UI Pages"])
+async def docs_page(request: Request, country: str = "USA"):
+    """Built-in Interactive REST API Tester."""
+    ctx = _build_common_ui_context(selected_country=country)
+    ctx["active_page"] = "docs"
     return templates.TemplateResponse(request=request, name="intro.html", context=ctx)
 
 

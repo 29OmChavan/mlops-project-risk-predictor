@@ -3,167 +3,108 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zero-Retention Medical Document Vault · GlobalActuary AI</title>
+    <title>Temp Lab Report Parser - Health Insurance Risk Portal</title>
     <style>
-        :root {
-            --bg: #0b1120;
-            --card: #111827;
-            --card-alt: #1e293b;
-            --border: #334155;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --accent: #38bdf8;
-            --success: #10b981;
-            --danger: #ef4444;
-        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(circle at top right, #1e1b4b, #0b1120 55%);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.55;
-        }
-        .navbar {
-            background: rgba(17, 24, 39, 0.92);
-            border-bottom: 1px solid var(--border);
-            padding: 0.85rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .brand { color: var(--text); text-decoration: none; font-weight: 800; font-size: 1.15rem; }
-        .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .nav-link {
-            color: var(--muted);
-            text-decoration: none;
-            padding: 0.5rem 0.95rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .nav-link.active {
-            color: var(--accent);
-            background: rgba(56, 189, 248, 0.14);
-            border: 1px solid rgba(56, 189, 248, 0.35);
-        }
-        .container { max-width: 1180px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin-bottom: 1.4rem;
-        }
-        .btn {
-            background: linear-gradient(135deg, #10b981, #0284c7);
-            color: #fff;
-            border: none;
-            padding: 0.8rem 1.3rem;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 0.9rem;
-        }
-        table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin-top: 0.8rem; }
-        th, td { padding: 0.65rem; text-align: left; border-bottom: 1px solid var(--border); }
-        th { color: var(--muted); }
+        body { font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #f4f6f9; color: #212529; font-size: 14px; line-height: 1.5; }
+        code, pre, .mono { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; }
+        .main-header { background-color: #343a40; color: #ffffff; border-bottom: 3px solid #007bff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand-title { font-size: 16px; font-weight: 700; color: #ffffff; text-decoration: none; }
+        .nav-bar { background-color: #ffffff; border-bottom: 1px solid #dee2e6; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 4px; }
+        .nav-item { display: inline-block; padding: 10px 14px; color: #495057; text-decoration: none; font-size: 13.5px; font-weight: 600; border-bottom: 3px solid transparent; }
+        .nav-item:hover { background-color: #f8f9fa; color: #007bff; }
+        .nav-item.active { color: #007bff; border-bottom-color: #007bff; background-color: #f8f9fa; }
+        .content-wrapper { max-width: 1280px; margin: 18px auto; padding: 0 16px 40px; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1.2fr; gap: 18px; align-items: start; }
+        @media (max-width: 960px) { .row-2 { grid-template-columns: 1fr; } }
+        .card-box { background-color: #ffffff; border: 1px solid #dee2e6; border-top: 3px solid #007bff; border-radius: 3px; margin-bottom: 16px; }
+        .card-header { padding: 10px 15px; border-bottom: 1px solid #dee2e6; background-color: #fdfdfe; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .card-body { padding: 15px; }
+        .btn-primary { background-color: #007bff; border: 1px solid #006fe6; color: #ffffff; padding: 8px 16px; font-size: 13.5px; font-weight: 700; border-radius: 3px; cursor: pointer; width: 100%; }
+        table.table-bordered { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+        table.table-bordered th, table.table-bordered td { border: 1px solid #dee2e6; padding: 6px 8px; text-align: left; }
+        table.table-bordered th { background-color: #f8f9fa; font-weight: 700; color: #495057; }
+        .badge-success { display: inline-block; padding: 2px 6px; font-size: 11px; font-weight: 700; border-radius: 3px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="/" class="brand">GlobalActuary AI · Zero-Retention Document Vault</a>
-        <div class="nav-links">
-            <a href="/" class="nav-link">1. Underwriting Studio</a>
-            <a href="/analytics" class="nav-link">2. Country Models & Leaderboards</a>
-            <a href="/explainability" class="nav-link">3. Explainable AI & Counterfactuals</a>
-            <a href="/document-vault" class="nav-link active">4. Medical Doc Vault (Zero-Retention)</a>
-            <a href="/docs" class="nav-link">OpenAPI / Swagger</a>
+    <header class="main-header">
+        <div>
+            <a href="/" class="brand-title">Actuarial &amp; Clinical Risk Underwriting Portal</a>
+            <span style="font-size:12px; color:#adb5bd; margin-left:10px;">Temporary Lab Report Parser &amp; Auto-Delete Log</span>
         </div>
+        <div class="mono" style="font-size:12px;">Zero Disk Retention (`os.unlink` after zero-byte overwrite)</div>
+    </header>
+
+    <nav class="nav-bar">
+        <a href="/" class="nav-item">1. Underwriting Calculator</a>
+        <a href="/analytics" class="nav-item">2. Country Model Tables</a>
+        <a href="/explainability" class="nav-item">3. Feature Impact &amp; What-Ifs</a>
+        <a href="/document-vault" class="nav-item active">4. Temp Lab Report Parser</a>
+        <a href="/intro" class="nav-item">5. Developer Notes</a>
+        <a href="/help" class="nav-item">6. Help &amp; User Guide</a>
+        <a href="/docs" class="nav-item">7. REST API Tester (/docs)</a>
     </nav>
 
-    <div class="container">
-        <h1 style="font-size: 1.65rem; margin-bottom: 0.4rem;">Ephemeral Medical Document Analyzer &amp; Zero-Retention Vault</h1>
-        <p style="color: var(--muted); margin-bottom: 1.5rem;">
-            Upload clinical discharge notes or lab reports. Files are scanned for clinical risk biomarkers, overwritten with zeros (`0x00`), and permanently unlinked from disk in milliseconds.
-        </p>
-
-        {% if vault_error %}
-        <div style="background: rgba(239,68,68,0.16); border: 1px solid var(--danger); padding: 0.9rem; border-radius: 10px; margin-bottom: 1.2rem; color: #fca5a5;">
-            <strong>Consent Required:</strong> {{ vault_error }}
-        </div>
-        {% endif %}
-
-        {% if vault_receipt %}
-        <div class="card" style="border-color: var(--success);">
-            <h3 style="color: #34d399; margin-bottom: 0.5rem;">Cryptographic Deletion Certificate: {{ vault_receipt.receipt_id }}</h3>
-            <p style="font-size: 0.9rem;">
-                <strong>File:</strong> {{ vault_receipt.original_filename }} ({{ vault_receipt.bytes_purged }} bytes) &nbsp;|&nbsp;
-                <strong>SHA-256:</strong> <code>{{ vault_receipt.sha256_fingerprint }}</code><br/>
-                <strong>Retention Duration:</strong> {{ vault_receipt.retention_duration_ms }} ms &nbsp;|&nbsp;
-                <strong>File Exists on Disk After Processing:</strong> <code>{{ vault_receipt.file_exists_on_disk }}</code> &nbsp;|&nbsp;
-                <strong>Status:</strong> <strong style="color: #34d399;">{{ vault_receipt.status }}</strong>
-            </p>
-            <div style="margin-top: 0.7rem; font-size: 0.88rem; color: #cbd5e1;">
-                <strong>Extracted Clinical Findings:</strong> {{ vault_receipt.clinical_notes | join(' ') }}
-                {% if vault_receipt.extracted_vitals %}
-                <br/><strong>Parsed Vitals:</strong> <code>{{ vault_receipt.extracted_vitals }}</code>
-                {% endif %}
-            </div>
-        </div>
-        {% endif %}
-
-        <div class="card">
-            <h2 style="font-size: 1.15rem; margin-bottom: 0.8rem;">Test Ephemeral Medical Document Upload</h2>
-            <form action="/document-vault" method="post" enctype="multipart/form-data">
-                <input type="file" name="medical_doc" required style="background: var(--card-alt); padding: 0.7rem; border-radius: 8px; border: 1px solid var(--border); color: var(--text); width: 100%;" />
-                <label style="display: flex; align-items: flex-start; gap: 0.6rem; margin-top: 0.85rem; font-size: 0.88rem; color: #cbd5e1; cursor: pointer;">
-                    <input type="checkbox" name="accept_terms" value="true" style="margin-top: 0.22rem;" />
-                    <span>
-                        <strong>I accept the Terms &amp; Conditions:</strong> I authorize one-time automated extraction of clinical biomarkers from this document and understand the document is <strong>permanently deleted immediately after extraction</strong>.
-                    </span>
-                </label>
-                <button type="submit" class="btn">Scan Clinical Biomarkers &amp; Purge File Immediately</button>
-            </form>
-        </div>
-
-        <div class="card">
-            <h2 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Zero-Retention Deletion Audit Log (Anonymized)</h2>
-            <p style="font-size: 0.84rem; color: var(--muted);">
-                Cryptographic proof that zero uploaded medical documents remain on the server.
-            </p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Receipt ID</th>
-                        <th>SHA-256 Prefix</th>
-                        <th>Bytes Purged</th>
-                        <th>Processing &amp; Purge Time</th>
-                        <th>Exists on Disk</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if audit_log %}
-                        {% for item in audit_log %}
-                        <tr>
-                            <td><code>{{ item.receipt_id }}</code></td>
-                            <td><code>{{ item.sha256_fingerprint }}</code></td>
-                            <td>{{ item.bytes_purged }} B</td>
-                            <td>{{ item.retention_duration_ms }} ms</td>
-                            <td><code>{{ item.file_exists_on_disk }}</code></td>
-                            <td style="color: #34d399; font-weight: 700;">{{ item.status }}</td>
-                        </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td colspan="6" style="color: var(--muted);">No documents scanned yet in this session.</td>
-                        </tr>
+    <div class="content-wrapper">
+        <div class="row-2">
+            <div class="card-box">
+                <div class="card-header">
+                    <span>Scan Medical Note &amp; Auto-Delete File</span>
+                </div>
+                <div class="card-body">
+                    {% if vault_error %}
+                    <div style="background:#f8d7da; border:1px solid #f5c6cb; color:#721c24; padding:10px; margin-bottom:12px;">
+                        {{ vault_error }}
+                    </div>
                     {% endif %}
-                </tbody>
-            </table>
+                    <p style="margin-bottom:10px; font-size:13px;">
+                        Upload a lab summary or clinical text file to test the extraction parser (`EphemeralDocumentProcessor`). The file is written to a staging slot, scanned for HbA1c, blood pressure, cholesterol, and chronic disease terms, overwritten with `0x00` bytes, and unlinked from the filesystem.
+                    </p>
+                    <form action="/document-vault" method="post" enctype="multipart/form-data">
+                        <input type="file" name="medical_doc" required style="width:100%; margin-bottom:10px;" />
+                        <label style="display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; margin-bottom:12px;">
+                            <input type="checkbox" name="accept_terms" value="true" />
+                            <span>I accept the Terms &amp; Conditions and understand the uploaded file will be deleted immediately after parsing.</span>
+                        </label>
+                        <button type="submit" class="btn-primary">Scan Biomarkers &amp; Delete Document</button>
+                    </form>
+
+                    {% if vault_receipt %}
+                    <div style="border:1px solid #c3e6cb; background:#d4edda; color:#155724; padding:10px; margin-top:14px; font-size:12.5px;">
+                        <strong>Deletion Receipt: {{ vault_receipt.receipt_id }}</strong><br/>
+                        Status: <code>{{ vault_receipt.status }}</code> (On disk: <code>{{ vault_receipt.file_exists_on_disk }}</code>)<br/>
+                        Time held: <code>{{ vault_receipt.retention_duration_ms }} ms</code> | Bytes zeroed: <code>{{ vault_receipt.bytes_purged }}</code><br/>
+                        Detected conditions: <strong>{{ vault_receipt.detected_disease_labels | join(', ') or 'None' }}</strong>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card-box">
+                <div class="card-header">
+                    <span>Recent Deletion Receipts (`document_deletion_audit.json`)</span>
+                </div>
+                <div class="card-body">
+                    <table class="table-bordered">
+                        <thead>
+                            <tr><th>Receipt ID</th><th>SHA-256 Prefix</th><th>Bytes</th><th>Held (ms)</th><th>On Disk?</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for row in audit_log %}
+                            <tr>
+                                <td class="mono">{{ row.receipt_id }}</td>
+                                <td class="mono">{{ row.sha256_fingerprint }}</td>
+                                <td class="mono">{{ row.bytes_purged }} B</td>
+                                <td class="mono">{{ row.retention_duration_ms }} ms</td>
+                                <td class="mono">{{ row.file_exists_on_disk }}</td>
+                                <td><span class="badge-success">{{ row.status }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </body>

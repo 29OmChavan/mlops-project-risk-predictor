@@ -3,163 +3,113 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Country ML Models & Actuarial Leaderboards · GlobalActuary AI</title>
+    <title>Country Model Tables - Health Insurance Risk Portal</title>
     <style>
-        :root {
-            --bg: #0b1120;
-            --card: #111827;
-            --card-alt: #1e293b;
-            --border: #334155;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-2: #6366f1;
-            --success: #10b981;
-        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(circle at top right, #1e1b4b, #0b1120 55%);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.55;
-        }
-        .navbar {
-            background: rgba(17, 24, 39, 0.92);
-            border-bottom: 1px solid var(--border);
-            padding: 0.85rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .brand { color: var(--text); text-decoration: none; font-weight: 800; font-size: 1.15rem; }
-        .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .nav-link {
-            color: var(--muted);
-            text-decoration: none;
-            padding: 0.5rem 0.95rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .nav-link.active {
-            color: var(--accent);
-            background: rgba(56, 189, 248, 0.14);
-            border: 1px solid rgba(56, 189, 248, 0.35);
-        }
-        .container { max-width: 1320px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
-        @media (max-width: 960px) { .grid-2 { grid-template-columns: 1fr; } }
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin-bottom: 1.4rem;
-        }
-        table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin-top: 0.8rem; }
-        th, td { padding: 0.6rem; text-align: left; border-bottom: 1px solid var(--border); }
-        th { color: var(--muted); }
-        .pill {
-            display: inline-block;
-            padding: 0.2rem 0.65rem;
-            border-radius: 99px;
-            font-size: 0.76rem;
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
-            font-weight: 700;
-        }
+        body { font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #f4f6f9; color: #212529; font-size: 14px; line-height: 1.5; }
+        code, pre, .mono { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; }
+        .main-header { background-color: #343a40; color: #ffffff; border-bottom: 3px solid #007bff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand-title { font-size: 16px; font-weight: 700; color: #ffffff; text-decoration: none; }
+        .nav-bar { background-color: #ffffff; border-bottom: 1px solid #dee2e6; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 4px; }
+        .nav-item { display: inline-block; padding: 10px 14px; color: #495057; text-decoration: none; font-size: 13.5px; font-weight: 600; border-bottom: 3px solid transparent; }
+        .nav-item:hover { background-color: #f8f9fa; color: #007bff; }
+        .nav-item.active { color: #007bff; border-bottom-color: #007bff; background-color: #f8f9fa; }
+        .content-wrapper { max-width: 1280px; margin: 18px auto; padding: 0 16px 40px; }
+        .card-box { background-color: #ffffff; border: 1px solid #dee2e6; border-top: 3px solid #007bff; border-radius: 3px; margin-bottom: 16px; }
+        .card-header { padding: 10px 15px; border-bottom: 1px solid #dee2e6; background-color: #fdfdfe; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .card-body { padding: 15px; }
+        table.table-bordered { width: 100%; border-collapse: collapse; font-size: 13px; }
+        table.table-bordered th, table.table-bordered td { border: 1px solid #dee2e6; padding: 7px 10px; text-align: left; }
+        table.table-bordered th { background-color: #f8f9fa; font-weight: 700; color: #495057; }
+        table.table-bordered tr:nth-child(even) { background-color: #fcfcfd; }
+        .badge { display: inline-block; padding: 3px 7px; font-size: 11.5px; font-weight: 700; border-radius: 3px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="/" class="brand">GlobalActuary AI · Multi-Country MLOps</a>
-        <div class="nav-links">
-            <a href="/" class="nav-link">1. Underwriting Studio</a>
-            <a href="/analytics" class="nav-link active">2. Country Models & Leaderboards</a>
-            <a href="/explainability" class="nav-link">3. Explainable AI & Counterfactuals</a>
-            <a href="/document-vault" class="nav-link">4. Medical Doc Vault (Zero-Retention)</a>
-            <a href="/docs" class="nav-link">OpenAPI / Swagger</a>
+    <header class="main-header">
+        <div>
+            <a href="/" class="brand-title">Actuarial &amp; Clinical Risk Underwriting Portal</a>
+            <span style="font-size:12px; color:#adb5bd; margin-left:10px;">Country Model Metrics &amp; Plan Tables</span>
         </div>
+        <div class="mono" style="font-size:12px;">4 Trained Country Bundles (`artifacts/country_models/`)</div>
+    </header>
+
+    <nav class="nav-bar">
+        <a href="/" class="nav-item">1. Underwriting Calculator</a>
+        <a href="/analytics" class="nav-item active">2. Country Model Tables</a>
+        <a href="/explainability" class="nav-item">3. Feature Impact &amp; What-Ifs</a>
+        <a href="/document-vault" class="nav-item">4. Temp Lab Report Parser</a>
+        <a href="/intro" class="nav-item">5. Developer Notes</a>
+        <a href="/help" class="nav-item">6. Help &amp; User Guide</a>
+        <a href="/docs" class="nav-item">7. REST API Tester (/docs)</a>
     </nav>
 
-    <div class="container">
-        <h1 style="font-size: 1.65rem; margin-bottom: 0.4rem;">Country-Specific ML Models &amp; Healthcare System Analytics</h1>
-        <p style="color: var(--muted); margin-bottom: 1.6rem;">
-            Each country has its own dedicated actuarial dataset, Public vs. Private insurance tier structure, and trained multi-model arena.
-        </p>
-
-        <div class="grid-2">
-            {% for c_code, c_meta in countries.items() %}
-            {% set summary = country_summaries.get(c_code) %}
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                    <h2 style="font-size: 1.2rem;">{{ c_meta.country_name }} ({{ c_meta.currency_code }} {{ c_meta.currency_symbol }})</h2>
-                    {% if summary %}
-                    <span class="pill">Trained · R² = {{ summary.r2_score }}</span>
-                    {% else %}
-                    <span class="pill" style="background: rgba(245,158,11,0.2); color: #fbbf24;">On-Demand Training</span>
-                    {% endif %}
-                </div>
-                <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 0.9rem;">{{ c_meta.system_overview }}</p>
-
-                {% if summary %}
-                <div style="font-size: 0.85rem; margin-bottom: 0.7rem;">
-                    <strong>Champion Model:</strong> <code>{{ summary.champion_model }}</code> &nbsp;|&nbsp;
-                    <strong>RMSE:</strong> {{ c_meta.currency_symbol }}{{ "{:,.2f}".format(summary.rmse) }} &nbsp;|&nbsp;
-                    <strong>MAE:</strong> {{ c_meta.currency_symbol }}{{ "{:,.2f}".format(summary.mae) }}
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Candidate Regressor</th>
-                            <th>Test R²</th>
-                            <th>RMSE ({{ c_meta.currency_symbol }})</th>
-                            <th>MAE ({{ c_meta.currency_symbol }})</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for m_name, m_scores in summary.leaderboard.items() %}
-                        <tr>
-                            <td><strong>{{ m_name }}</strong></td>
-                            <td>{{ m_scores.r2_score }}</td>
-                            <td>{{ "{:,.2f}".format(m_scores.rmse) }}</td>
-                            <td>{{ "{:,.2f}".format(m_scores.mae) }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endif %}
-
-                <h4 style="margin-top: 1rem; font-size: 0.9rem; color: var(--accent);">Public vs. Private Health Insurance Tiers</h4>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Plan Name</th>
-                            <th>Sector</th>
-                            <th>Coverage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for t_name, t_meta in c_meta.insurance_tiers.items() %}
-                        <tr>
-                            <td>{{ t_name }}</td>
-                            <td>{{ t_meta.category }}</td>
-                            <td>{{ t_meta.oop_coverage_pct }}%</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div style="margin-top: 1rem;">
-                    <a href="/?country={{ c_code }}" style="color: var(--accent); font-weight: 700; text-decoration: none; font-size: 0.88rem;">
-                        &rarr; Launch {{ c_meta.country_name }} Underwriting Studio
-                    </a>
-                </div>
+    <div class="content-wrapper">
+        <div class="card-box">
+            <div class="card-header">
+                <span>Trained Country Regression Bundles (USA, India, UK, Germany)</span>
+                <span class="badge">All 4 Pickles Verified</span>
             </div>
-            {% endfor %}
+            <div class="card-body">
+                <p style="margin-bottom:12px;">
+                    Healthcare billing looks completely different across countries. A US PPO plan bills in thousands of dollars with high deductibles, whereas UK NHS Care is tax-funded unless the patient opts into private Bupa/AXA coverage. Rather than multiplying one US number by an exchange rate, we trained four separate regression pipelines in <code>artifacts/country_models/</code>.
+                </p>
+                <table class="table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Currency</th>
+                            <th>Winning Estimator</th>
+                            <th>Test R2 Score</th>
+                            <th>Test RMSE</th>
+                            <th>Test MAE</th>
+                            <th>Dataset Rows</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c_code, summary in country_summaries.items() %}
+                        <tr>
+                            <td><strong>{{ summary.country_name }} ({{ c_code }})</strong></td>
+                            <td class="mono">{{ summary.currency_code }} ({{ summary.currency_symbol }})</td>
+                            <td class="mono">{{ summary.champion_model }}</td>
+                            <td class="mono"><strong>{{ summary.r2_score }}</strong></td>
+                            <td class="mono">{{ summary.currency_symbol }}{{ "{:,.2f}".format(summary.rmse) }}</td>
+                            <td class="mono">{{ summary.currency_symbol }}{{ "{:,.2f}".format(summary.mae) }}</td>
+                            <td class="mono">{{ summary.dataset_rows }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        {% for c_code, c_meta in countries.items() %}
+        <div class="card-box">
+            <div class="card-header">
+                <span>{{ c_meta.country_name }} ({{ c_meta.currency_code }}): Public vs. Private Insurance Tiers</span>
+                <a href="/?country={{ c_code }}" style="color:#007bff; font-size:12.5px; text-decoration:none;">Open {{ c_code }} Calculator -&gt;</a>
+            </div>
+            <div class="card-body">
+                <p style="margin-bottom:10px; font-size:13px;">{{ c_meta.system_overview }}</p>
+                <table class="table-bordered">
+                    <thead>
+                        <tr><th>Plan Name</th><th>Category</th><th>Premium Multiplier</th><th>Eligible Expense Coverage</th><th>Notes</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for p_name, p_info in c_meta.insurance_tiers.items() %}
+                        <tr>
+                            <td><strong>{{ p_name }}</strong></td>
+                            <td class="mono">{{ p_info.category }}</td>
+                            <td class="mono">{{ p_info.multiplier }}x</td>
+                            <td class="mono">{{ p_info.oop_coverage_pct }}%</td>
+                            <td>{{ p_info.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </body>
 </html>

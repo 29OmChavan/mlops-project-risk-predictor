@@ -192,6 +192,6 @@ def test_ephemeral_medical_document_upload_and_deletion():
 
 
 def test_multi_page_ui_routes():
-    for route in ["/", "/analytics", "/explainability", "/document-vault", "/countries"]:
+    for route in ["/", "/analytics", "/explainability", "/document-vault", "/countries", "/intro", "/help", "/docs"]:
         resp = client.get(route)
         assert resp.status_code == 200

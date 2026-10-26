@@ -3,162 +3,98 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Explainable AI (SHAP Waterfall & Counterfactuals) · GlobalActuary AI</title>
+    <title>Feature Impact &amp; What-Ifs - Health Insurance Risk Portal</title>
     <style>
-        :root {
-            --bg: #0b1120;
-            --card: #111827;
-            --card-alt: #1e293b;
-            --border: #334155;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --accent: #38bdf8;
-        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(circle at top right, #1e1b4b, #0b1120 55%);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.55;
-        }
-        .navbar {
-            background: rgba(17, 24, 39, 0.92);
-            border-bottom: 1px solid var(--border);
-            padding: 0.85rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .brand { color: var(--text); text-decoration: none; font-weight: 800; font-size: 1.15rem; }
-        .nav-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .nav-link {
-            color: var(--muted);
-            text-decoration: none;
-            padding: 0.5rem 0.95rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .nav-link.active {
-            color: var(--accent);
-            background: rgba(56, 189, 248, 0.14);
-            border: 1px solid rgba(56, 189, 248, 0.35);
-        }
-        .container { max-width: 1240px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin-bottom: 1.4rem;
-        }
-        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.7rem; }
-        th, td { padding: 0.65rem; text-align: left; border-bottom: 1px solid var(--border); }
-        th { color: var(--muted); }
-        .country-switch { display: flex; gap: 0.6rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
-        .country-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            background: var(--card-alt);
-            border: 1px solid var(--border);
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 700;
-        }
-        .country-btn.active { background: #0284c7; border-color: var(--accent); }
+        body { font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #f4f6f9; color: #212529; font-size: 14px; line-height: 1.5; }
+        code, pre, .mono { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; }
+        .main-header { background-color: #343a40; color: #ffffff; border-bottom: 3px solid #007bff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand-title { font-size: 16px; font-weight: 700; color: #ffffff; text-decoration: none; }
+        .nav-bar { background-color: #ffffff; border-bottom: 1px solid #dee2e6; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 4px; }
+        .nav-item { display: inline-block; padding: 10px 14px; color: #495057; text-decoration: none; font-size: 13.5px; font-weight: 600; border-bottom: 3px solid transparent; }
+        .nav-item:hover { background-color: #f8f9fa; color: #007bff; }
+        .nav-item.active { color: #007bff; border-bottom-color: #007bff; background-color: #f8f9fa; }
+        .content-wrapper { max-width: 1280px; margin: 18px auto; padding: 0 16px 40px; }
+        .card-box { background-color: #ffffff; border: 1px solid #dee2e6; border-top: 3px solid #007bff; border-radius: 3px; margin-bottom: 16px; }
+        .card-header { padding: 10px 15px; border-bottom: 1px solid #dee2e6; background-color: #fdfdfe; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .card-body { padding: 15px; }
+        .btn-sm { display: inline-block; padding: 4px 10px; font-size: 12px; font-weight: 600; border: 1px solid #ced4da; background-color: #f8f9fa; color: #343a40; text-decoration: none; border-radius: 3px; }
+        .btn-sm.active-country { background-color: #007bff; color: #ffffff; border-color: #006fe6; }
+        table.table-bordered { width: 100%; border-collapse: collapse; font-size: 13px; }
+        table.table-bordered th, table.table-bordered td { border: 1px solid #dee2e6; padding: 7px 10px; text-align: left; }
+        table.table-bordered th { background-color: #f8f9fa; font-weight: 700; color: #495057; }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="/" class="brand">GlobalActuary AI · Explainability Lab</a>
-        <div class="nav-links">
-            <a href="/" class="nav-link">1. Underwriting Studio</a>
-            <a href="/analytics" class="nav-link">2. Country Models & Leaderboards</a>
-            <a href="/explainability" class="nav-link active">3. Explainable AI & Counterfactuals</a>
-            <a href="/document-vault" class="nav-link">4. Medical Doc Vault (Zero-Retention)</a>
-            <a href="/docs" class="nav-link">OpenAPI / Swagger</a>
+    <header class="main-header">
+        <div>
+            <a href="/" class="brand-title">Actuarial &amp; Clinical Risk Underwriting Portal</a>
+            <span style="font-size:12px; color:#adb5bd; margin-left:10px;">Marginal Coalition Feature Attribution &amp; Counterfactuals</span>
         </div>
+        <div class="mono" style="font-size:12px;">Active Country: {{ selected_country }}</div>
+    </header>
+
+    <nav class="nav-bar">
+        <a href="/?country={{ selected_country }}" class="nav-item">1. Underwriting Calculator</a>
+        <a href="/analytics?country={{ selected_country }}" class="nav-item">2. Country Model Tables</a>
+        <a href="/explainability?country={{ selected_country }}" class="nav-item active">3. Feature Impact &amp; What-Ifs</a>
+        <a href="/document-vault" class="nav-item">4. Temp Lab Report Parser</a>
+        <a href="/intro" class="nav-item">5. Developer Notes</a>
+        <a href="/help" class="nav-item">6. Help &amp; User Guide</a>
+        <a href="/docs" class="nav-item">7. REST API Tester (/docs)</a>
     </nav>
 
-    <div class="container">
-        <h1 style="font-size: 1.65rem; margin-bottom: 0.4rem;">Explainable AI (XAI) &amp; Counterfactual Attribution Explorer</h1>
-        <p style="color: var(--muted); margin-bottom: 1.2rem;">
-            Inspect how our SHAP-Style Marginal Coalition Attribution and Global Permutation Importance decompose complex clinical risk predictions into transparent, auditable factors.
-        </p>
-
-        <div class="country-switch">
-            {% for c_code, c_meta in countries.items() %}
-            <a href="/explainability?country={{ c_code }}" class="country-btn {% if c_code == selected_country %}active{% endif %}">
-                Inspect {{ c_meta.country_name }} ({{ c_meta.currency_symbol }}) XAI
-            </a>
+    <div class="content-wrapper">
+        <div style="margin-bottom:14px;">
+            <strong>Inspect Reference High-Risk Case Across Countries:</strong>
+            {% for c_key in countries.keys() %}
+            <a href="/explainability?country={{ c_key }}" class="btn-sm {% if selected_country == c_key %}active-country{% endif %}">{{ c_key }}</a>
             {% endfor %}
         </div>
 
-        <div class="card">
-            <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem;">
-                Live Benchmark Case Study ({{ sample_result.country_name }} — High-Risk Comorbid Profile)
-            </h2>
-            <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 0.9rem;">
-                <strong>Profile:</strong> Age 46, Height 175 cm, Weight 96 kg (BMI {{ sample_result.bmi }} — {{ sample_result.bmi_category }}),
-                Smoker, Regular Alcohol, Prior Hospitalization, Type 2 Diabetes + Hypertension.<br/>
-                <strong>Predicted Annual Cost:</strong> <span style="color: var(--accent); font-weight: 800;">{{ sample_result.predicted_charges_formatted }}</span>
-                ({{ sample_result.risk_tier }}) vs. Healthy Country Baseline <strong>{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(sample_result.explainability.baseline_healthy_charge) }}</strong>.
-            </p>
-            <div style="background: var(--card-alt); padding: 1rem; border-radius: 10px; font-size: 0.9rem; margin-bottom: 1rem;">
-                <strong>AI Underwriting Agent Explanation:</strong><br/>
-                {{ sample_agent.executive_summary }}
+        <div class="card-box">
+            <div class="card-header">
+                <span>Reference Case Breakdown (Age 46, 175cm / 96kg, BMI {{ sample_result.bmi }}, Smoker, Hypertension + Type 2 Diabetes)</span>
+                <span class="mono">Total Estimate: <strong>{{ sample_result.predicted_charges_formatted }}</strong></span>
             </div>
+            <div class="card-body">
+                <p style="margin-bottom:12px;">
+                    To explain why the model outputs <strong>{{ sample_result.predicted_charges_formatted }}</strong> instead of a healthy baseline of <strong>{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(sample_result.explainability.baseline_healthy_charge) }}</strong>, we evaluate the trained estimator by toggling each risk group against the healthy reference baseline and normalizing the marginal deltas so they sum to the exact prediction difference.
+                </p>
 
-            <h3 style="font-size: 1.02rem; margin-bottom: 0.5rem;">Local Additive Feature Attribution Waterfall</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Clinical / Actuarial Factor Group</th>
-                        <th>Marginal Contribution ({{ sample_result.currency_symbol }})</th>
-                        <th>Share of Total Estimate</th>
-                        <th>Direction</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for attr in sample_result.explainability.local_attributions %}
-                    <tr>
-                        <td><strong>{{ attr.factor }}</strong></td>
-                        <td style="color: {% if attr.impact_local_currency > 0 %}#f87171{% else %}#34d399{% endif %}; font-weight: 700;">
-                            {{ attr.impact_formatted }}
-                        </td>
-                        <td>{{ attr.share_pct }}%</td>
-                        <td>{{ attr.direction | replace('_', ' ') | title }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                <table class="table-bordered" style="margin-bottom:16px;">
+                    <thead>
+                        <tr><th>Feature / Risk Factor</th><th>Marginal Cost Impact</th><th>Share of Total</th><th>Direction</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for att in sample_result.explainability.local_attributions %}
+                        <tr>
+                            <td><strong>{{ att.factor }}</strong></td>
+                            <td class="mono">{{ att.impact_formatted }}</td>
+                            <td class="mono">{{ att.share_pct }}%</td>
+                            <td class="mono">{{ att.direction }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-        <div class="card">
-            <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Global Permutation Feature Importance ({{ sample_result.country_name }} Model)</h2>
-            <p style="font-size: 0.86rem; color: var(--muted);">
-                Measured via held-out test set R² drop across 5 random feature permutations (`sklearn.inspection.permutation_importance`).
-            </p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Feature Name</th>
-                        <th>Mean R² Importance Drop</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for feat, score in sample_result.explainability.global_feature_importance.items() %}
-                    <tr>
-                        <td><code>{{ feat }}</code></td>
-                        <td>{{ score }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <h4 style="margin-bottom:8px; font-size:13.5px;">Counterfactual "What-If" Savings Table</h4>
+                <table class="table-bordered">
+                    <thead>
+                        <tr><th>Actionable Change</th><th>New Predicted Annual Cost</th><th>Estimated Annual Savings</th><th>Reduction %</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for cf in sample_result.explainability.counterfactual_what_ifs %}
+                        <tr>
+                            <td><strong>{{ cf.intervention }}</strong></td>
+                            <td class="mono">{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(cf.new_predicted_charge) }}</td>
+                            <td class="mono" style="color:#155724; font-weight:700;">{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(cf.annual_savings) }}</td>
+                            <td class="mono">-{{ cf.savings_pct }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

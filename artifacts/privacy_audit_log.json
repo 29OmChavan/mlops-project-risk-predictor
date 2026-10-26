@@ -1,0 +1,52 @@
+[
+  {
+    "receipt_id": "DEL-55BBC5F91F",
+    "sha256_fingerprint": "654ed59f2947e310...",
+    "bytes_purged": 26414,
+    "retention_duration_ms": 4.95,
+    "deleted_at_utc": "2026-10-21T14:04:32.080640+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 0
+  },
+  {
+    "receipt_id": "DEL-200A7C8B98",
+    "sha256_fingerprint": "e3b0c44298fc1c14...",
+    "bytes_purged": 0,
+    "retention_duration_ms": 1.85,
+    "deleted_at_utc": "2026-10-21T14:10:52.666813+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 0
+  },
+  {
+    "receipt_id": "DEL-EF47744629",
+    "sha256_fingerprint": "b43c03eb66e1635d...",
+    "bytes_purged": 3446,
+    "retention_duration_ms": 2.84,
+    "deleted_at_utc": "2026-10-21T14:14:03.283020+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 1
+  },
+  {
+    "receipt_id": "DEL-4130B58303",
+    "sha256_fingerprint": "377a576fbef5e3e3...",
+    "bytes_purged": 94,
+    "retention_duration_ms": 2.06,
+    "deleted_at_utc": "2026-10-26T12:52:27.182292+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-3697F2597C",
+    "sha256_fingerprint": "377a576fbef5e3e3...",
+    "bytes_purged": 94,
+    "retention_duration_ms": 1.7,
+    "deleted_at_utc": "2026-10-26T12:54:57.856613+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  }
+]
