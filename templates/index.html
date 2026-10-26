@@ -443,19 +443,29 @@
                         </div>
 
                         <div class="field-row">
-                            <div style="border:1px solid #cbd5e1; padding:12px; border-radius:4px; background:#f8fafc;">
+                            <div style="border:1px solid #cbd5e1; padding:12px; border-radius:3px; background:#f8fafc;">
                                 <div style="font-size:12px; color:#64748b;">Gross Annual Exposure</div>
-                                <div class="mono" style="font-size:20px; font-weight:700; color:#0284c7;">{{ result.predicted_charges_formatted }}</div>
+                                <div class="mono" style="font-size:19px; font-weight:700; color:#0284c7;">{{ result.predicted_charges_formatted }}</div>
                             </div>
-                            <div style="border:1px solid #cbd5e1; padding:12px; border-radius:4px; background:#f8fafc;">
-                                <div style="font-size:12px; color:#64748b;">Estimated Out-of-Pocket</div>
-                                <div class="mono" style="font-size:20px; font-weight:700; color:#dc2626;">{{ result.currency_symbol }}{{ "{:,.2f}".format(result.estimated_out_of_pocket_local) }}</div>
+                            <div style="border:1px solid #cbd5e1; padding:12px; border-radius:3px; background:#f8fafc;">
+                                <div style="font-size:12px; color:#64748b;">Estimated Out-of-Pocket ({{ result.oop_coverage_pct|default(80) }}% Covered)</div>
+                                <div class="mono" style="font-size:19px; font-weight:700; color:#dc2626;">{{ result.estimated_out_of_pocket_formatted if result.estimated_out_of_pocket_formatted is defined else (result.currency_symbol ~ "{:,.2f}".format(result.estimated_out_of_pocket_local|default(0.0))) }}</div>
                             </div>
                         </div>
 
+                        {% if result.ood_guard is defined and result.ood_guard %}
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:8px 12px; border-radius:3px; margin-bottom:12px; font-size:12px;" class="mono">
+                            <strong>[alibi-detect OOD Guard]</strong>
+                            status={{ result.ood_guard.drift_flag }} |
+                            mahalanobis_d={{ result.ood_guard.mahalanobis_distance }} (thresh={{ result.ood_guard.threshold }}) |
+                            ks_p_val={{ result.ood_guard.ks_p_value }} |
+                            is_outlier={{ result.ood_guard.is_outlier }}
+                        </div>
+                        {% endif %}
+
                         {% if doc_receipt %}
-                        <div style="background:#dcfce7; border:1px solid #86efac; color:#166534; padding:8px 12px; border-radius:4px; margin-bottom:12px; font-size:12.5px;">
-                            <strong>Purge Receipt {{ doc_receipt.receipt_id }}:</strong> <code>{{ doc_receipt.original_filename }}</code> deleted in {{ doc_receipt.retention_duration_ms }} ms (`on_disk={{ doc_receipt.file_exists_on_disk }}`).
+                        <div style="background:#dcfce7; border:1px solid #86efac; color:#166534; padding:8px 12px; border-radius:3px; margin-bottom:12px; font-size:12.5px;">
+                            <strong>Purge Receipt {{ doc_receipt.receipt_id }}:</strong> <code>{{ doc_receipt.original_filename }}</code> zero-overwritten &amp; unlinked in {{ doc_receipt.retention_duration_ms }} ms (<code>on_disk={{ doc_receipt.file_exists_on_disk }}</code>, detected: {{ doc_receipt.detected_disease_labels | join(', ') or 'none' }}).
                         </div>
                         {% endif %}
 

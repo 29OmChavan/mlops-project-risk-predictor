@@ -195,3 +195,44 @@ def test_multi_page_ui_routes():
     for route in ["/", "/analytics", "/explainability", "/document-vault", "/countries", "/intro", "/help", "/docs"]:
         resp = client.get(route)
         assert resp.status_code == 200
+
+
+def test_predict_form_with_document_upload_and_pre2023_features():
+    sample_doc = b"Patient Lab Summary: HbA1c: 7.6%, BP 154/98 mmHg. History of Type 2 Diabetes and hypertension."
+    resp = client.post(
+        "/predict-form",
+        data={
+            "country": "USA",
+            "age": "45",
+            "sex": "male",
+            "height_cm": "175.0",
+            "weight_kg": "88.0",
+            "children": "2",
+            "smoker": "occasional",
+            "alcohol_consumption": "social_moderate",
+            "activity_level": "moderate",
+            "past_medical_history": "prior_hospitalization",
+            "region": "southeast",
+            "insurance_type": "Private - PPO Comprehensive",
+            "accept_terms": "true",
+        },
+        files={"medical_doc": ("lab_report.txt", sample_doc, "text/plain")},
+    )
+    assert resp.status_code == 200
+    assert "Error processing assessment" not in resp.text
+    assert "Purge Receipt" in resp.text
+    assert "alibi-detect OOD Guard" in resp.text
+
+    # Behavioral suite (Made-With-ML / Great Expectations)
+    r_beh = client.get("/behavioral-suite?country=USA")
+    assert r_beh.status_code == 200
+    assert r_beh.json()["all_passed"] is True
+
+    # BentoML adaptive micro-batching
+    r_batch = client.post(
+        "/predict-batch?country=USA",
+        json=[{"age": 30, "smoker": "no"}, {"age": 55, "smoker": "yes"}],
+    )
+    assert r_batch.status_code == 200
+    assert r_batch.json()["batch_size"] == 2
+

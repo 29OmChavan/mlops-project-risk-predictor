@@ -245,13 +245,15 @@ def _build_common_ui_context(selected_country: str = "USA") -> Dict[str, Any]:
     metrics_path = Path("artifacts/model_evaluation/metrics.json")
     metrics = load_json(metrics_path) if metrics_path.exists() else None
     country_summaries = country_engine.get_all_country_summaries()
+    valid_country = selected_country if selected_country in COUNTRY_CONFIGS else "USA"
     return {
         "countries": COUNTRY_CONFIGS,
-        "selected_country": selected_country if selected_country in COUNTRY_CONFIGS else "USA",
+        "selected_country": valid_country,
         "supported_diseases": SUPPORTED_DISEASES,
         "metrics": metrics,
         "country_summaries": country_summaries,
         "audit_log": doc_processor.get_audit_log(limit=12),
+        "behavioral_suite": country_engine.run_great_expectations_and_behavioral_suite(valid_country),
     }
 
 
@@ -478,6 +480,34 @@ async def document_vault_upload(
         }
     )
     return templates.TemplateResponse(request=request, name="document_vault.html", context=ctx)
+
+
+@app.post("/ood-guard", tags=["Alibi-Detect & Validation"])
+async def evaluate_ood_guard(payload: RiskPredictionRequest):
+    """SeldonIO/alibi-detect inspired tabular Mahalanobis Out-of-Distribution & KS drift detector."""
+    h_cm = payload.height_cm or 170.0
+    w_kg = payload.weight_kg or 72.0
+    bmi_val = payload.bmi or compute_bmi_from_height_weight(h_cm, w_kg)["bmi"]
+    row = {
+        "age": payload.age,
+        "bmi": bmi_val,
+        "height_cm": h_cm,
+        "weight_kg": w_kg,
+        "children": payload.children,
+    }
+    return country_engine.evaluate_ood_and_drift(row, country=payload.country)
+
+
+@app.get("/behavioral-suite", tags=["Alibi-Detect & Validation"])
+async def get_behavioral_suite(country: str = "USA"):
+    """GokuMohandas/Made-With-ML Great Expectations & behavioral model test suite (invariance/directional)."""
+    return country_engine.run_great_expectations_and_behavioral_suite(country=country)
+
+
+@app.post("/predict-batch", tags=["BentoML Micro-Batching"])
+async def predict_micro_batch_endpoint(records: List[Dict[str, Any]], country: str = "USA"):
+    """BentoML-inspired adaptive micro-batch runner for high-throughput vectorized CPU inference."""
+    return country_engine.predict_micro_batch(records=records, country=country)
 
 
 @app.post("/train", tags=["Pipeline"])

@@ -51,14 +51,15 @@
     <div class="modal-stage">
         <div class="modal-card">
             <div class="modal-header">
-                <span class="modal-title">Trained Country Models &amp; Insurance Tiers</span>
-                <span class="mono" id="step-label">Step 1 of 3</span>
+                <span class="modal-title">Trained Country Models &amp; Behavioral Tests</span>
+                <span class="mono" id="step-label">Step 1 of 4</span>
             </div>
 
             <div class="step-bar">
-                <button type="button" class="step-tab active" onclick="goStep(1)" id="tab-1">1. Model Accuracy Table</button>
+                <button type="button" class="step-tab active" onclick="goStep(1)" id="tab-1">1. Model Accuracy</button>
                 <button type="button" class="step-tab" onclick="goStep(2)" id="tab-2">2. USA &amp; India Tiers</button>
                 <button type="button" class="step-tab" onclick="goStep(3)" id="tab-3">3. UK &amp; Germany Tiers</button>
+                <button type="button" class="step-tab" onclick="goStep(4)" id="tab-4">4. GE &amp; Behavioral</button>
             </div>
 
             <div class="modal-body">
@@ -128,6 +129,27 @@
                     </table>
                     {% endfor %}
                 </div>
+
+                <!-- STEP 4 -->
+                <div class="step-pane" id="pane-4">
+                    <p style="font-size:13px; color:#475569; margin-bottom:8px;">
+                        <strong>Part 4 (Made-With-ML / Great Expectations):</strong> Schema validation plus directional and invariance behavioral model checks (`{{ behavioral_suite.suite_name }}`).
+                    </p>
+                    <table class="clean-table">
+                        <thead><tr><th>Check ID</th><th>Type</th><th>Rule</th><th>Detail</th><th>Status</th></tr></thead>
+                        <tbody>
+                            {% for chk in behavioral_suite.checks %}
+                            <tr>
+                                <td class="mono"><strong>{{ chk.check_id }}</strong></td>
+                                <td class="mono">{{ chk.type }}</td>
+                                <td class="mono">{{ chk.rule }}</td>
+                                <td class="mono">{{ chk.detail }}</td>
+                                <td class="mono" style="color:{{ '#15803d' if chk.passed else '#b91c1c' }}; font-weight:700;">{{ 'PASS' if chk.passed else 'FAIL' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -140,15 +162,15 @@
     <script>
         let cur = 1;
         function goStep(n) {
-            if (n < 1 || n > 3) return;
+            if (n < 1 || n > 4) return;
             cur = n;
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 4; i++) {
                 document.getElementById('pane-' + i).classList.toggle('active', i === n);
                 document.getElementById('tab-' + i).classList.toggle('active', i === n);
             }
-            document.getElementById('step-label').textContent = 'Step ' + n + ' of 3';
+            document.getElementById('step-label').textContent = 'Step ' + n + ' of 4';
             document.getElementById('btn-prev').style.visibility = (n > 1) ? 'visible' : 'hidden';
-            document.getElementById('btn-next').style.visibility = (n < 3) ? 'visible' : 'hidden';
+            document.getElementById('btn-next').style.visibility = (n < 4) ? 'visible' : 'hidden';
         }
     </script>
 </body>

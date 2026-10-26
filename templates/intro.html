@@ -113,8 +113,9 @@
                     <div style="display:flex; flex-direction:column; gap:8px;">
                         <button type="button" class="btn btn-next" onclick="runApi('GET', '/health')">1. Test GET /health</button>
                         <button type="button" class="btn btn-next" onclick="runApi('GET', '/metrics')">2. Test GET /metrics</button>
-                        <button type="button" class="btn btn-next" onclick="runApi('GET', '/countries')">3. Test GET /countries</button>
-                        <button type="button" class="btn btn-next" onclick="runPredictApi()">4. Test POST /predict-country (Sample Payload)</button>
+                        <button type="button" class="btn btn-next" onclick="runApi('GET', '/behavioral-suite?country=USA')">3. Test GET /behavioral-suite (Made-With-ML GE &amp; Behavioral Tests)</button>
+                        <button type="button" class="btn btn-next" onclick="runPredictApi()">4. Test POST /predict-country (Includes alibi-detect OOD Guard)</button>
+                        <button type="button" class="btn btn-next" onclick="runBatchApi()">5. Test POST /predict-batch (BentoML Adaptive Micro-Batching)</button>
                     </div>
                 </div>
                 <div class="step-pane" id="pane-2">
@@ -170,6 +171,22 @@
                     insurance_type: 'Private - Individual / Family Floater Gold',
                     diseases: ['diabetes_type_2', 'hypertension']
                 })
+            });
+            const j = await r.json();
+            out.textContent = 'HTTP ' + r.status + '\n\n' + JSON.stringify(j, null, 2);
+        }
+        async function runBatchApi() {
+            goStep(2);
+            const out = document.getElementById('api-out');
+            out.textContent = 'POST /predict-batch?country=USA ...';
+            const r = await fetch('/predict-batch?country=USA', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify([
+                    { age: 29, smoker: 'no', bmi: 22.4 },
+                    { age: 52, smoker: 'yes', bmi: 31.2, diabetes_type2: 1, chronic_disease_count: 1 },
+                    { age: 41, smoker: 'occasional', bmi: 27.5 }
+                ])
             });
             const j = await r.json();
             out.textContent = 'HTTP ' + r.status + '\n\n' + JSON.stringify(j, null, 2);

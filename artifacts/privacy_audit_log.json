@@ -68,5 +68,65 @@
     "file_exists_on_disk": false,
     "status": "PERMANENTLY_DELETED",
     "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-C9C7780C59",
+    "sha256_fingerprint": "59fcec7a84c062e2...",
+    "bytes_purged": 127762,
+    "retention_duration_ms": 11.85,
+    "deleted_at_utc": "2026-10-26T13:20:32.665037+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 0
+  },
+  {
+    "receipt_id": "DEL-6542647B0F",
+    "sha256_fingerprint": "4ae930baf168f1d5...",
+    "bytes_purged": 47598,
+    "retention_duration_ms": 7.09,
+    "deleted_at_utc": "2026-10-26T13:21:17.906620+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 0
+  },
+  {
+    "receipt_id": "DEL-DFB387045F",
+    "sha256_fingerprint": "377a576fbef5e3e3...",
+    "bytes_purged": 94,
+    "retention_duration_ms": 1.63,
+    "deleted_at_utc": "2026-10-26T13:33:10.662337+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-0AE42C6516",
+    "sha256_fingerprint": "7e3bc0090c19fbcb...",
+    "bytes_purged": 94,
+    "retention_duration_ms": 1.0,
+    "deleted_at_utc": "2026-10-26T13:33:11.227607+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-A349CE8484",
+    "sha256_fingerprint": "377a576fbef5e3e3...",
+    "bytes_purged": 94,
+    "retention_duration_ms": 2.32,
+    "deleted_at_utc": "2026-10-26T13:43:22.620301+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-32F898589E",
+    "sha256_fingerprint": "7e3bc0090c19fbcb...",
+    "bytes_purged": 94,
+    "retention_duration_ms": 1.98,
+    "deleted_at_utc": "2026-10-26T13:43:23.540807+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
   }
 ]
