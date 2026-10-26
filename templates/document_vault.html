@@ -3,109 +3,150 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Temp Lab Report Parser - Health Insurance Risk Portal</title>
+    <title>Lab File Parser Wizard - Health Insurance Risk Portal</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #f4f6f9; color: #212529; font-size: 14px; line-height: 1.5; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #e9eef4; color: #1f2937; font-size: 14px; line-height: 1.55; min-height: 100vh; display: flex; flex-direction: column; }
         code, pre, .mono { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; }
-        .main-header { background-color: #343a40; color: #ffffff; border-bottom: 3px solid #007bff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brand-title { font-size: 16px; font-weight: 700; color: #ffffff; text-decoration: none; }
-        .nav-bar { background-color: #ffffff; border-bottom: 1px solid #dee2e6; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 4px; }
-        .nav-item { display: inline-block; padding: 10px 14px; color: #495057; text-decoration: none; font-size: 13.5px; font-weight: 600; border-bottom: 3px solid transparent; }
-        .nav-item:hover { background-color: #f8f9fa; color: #007bff; }
-        .nav-item.active { color: #007bff; border-bottom-color: #007bff; background-color: #f8f9fa; }
-        .content-wrapper { max-width: 1280px; margin: 18px auto; padding: 0 16px 40px; }
-        .row-2 { display: grid; grid-template-columns: 1fr 1.2fr; gap: 18px; align-items: start; }
-        @media (max-width: 960px) { .row-2 { grid-template-columns: 1fr; } }
-        .card-box { background-color: #ffffff; border: 1px solid #dee2e6; border-top: 3px solid #007bff; border-radius: 3px; margin-bottom: 16px; }
-        .card-header { padding: 10px 15px; border-bottom: 1px solid #dee2e6; background-color: #fdfdfe; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
-        .card-body { padding: 15px; }
-        .btn-primary { background-color: #007bff; border: 1px solid #006fe6; color: #ffffff; padding: 8px 16px; font-size: 13.5px; font-weight: 700; border-radius: 3px; cursor: pointer; width: 100%; }
-        table.table-bordered { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-        table.table-bordered th, table.table-bordered td { border: 1px solid #dee2e6; padding: 6px 8px; text-align: left; }
-        table.table-bordered th { background-color: #f8f9fa; font-weight: 700; color: #495057; }
-        .badge-success { display: inline-block; padding: 2px 6px; font-size: 11px; font-weight: 700; border-radius: 3px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .top-bar { background-color: #1e3a5f; color: #ffffff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-size: 15px; font-weight: 700; color: #ffffff; text-decoration: none; }
+        .section-nav { background-color: #ffffff; border-bottom: 1px solid #cbd5e1; padding: 0 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; }
+        .section-link { padding: 10px 14px; color: #475569; text-decoration: none; font-size: 13px; font-weight: 600; border-bottom: 3px solid transparent; }
+        .section-link.active { color: #0284c7; border-bottom-color: #0284c7; background-color: #f0f9ff; }
+        .modal-stage { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 28px 16px 48px; }
+        .modal-card { width: 100%; max-width: 680px; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08); overflow: hidden; }
+        .modal-header { background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 16px; font-weight: 700; color: #0f172a; }
+        .step-bar { display: flex; background-color: #f1f5f9; border-bottom: 1px solid #e2e8f0; }
+        .step-tab { flex: 1; text-align: center; padding: 10px 6px; font-size: 12px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; background: none; border-top: none; border-left: none; border-right: 1px solid #e2e8f0; }
+        .step-tab.active { background-color: #ffffff; color: #0284c7; border-bottom-color: #0284c7; font-weight: 700; }
+        .modal-body { padding: 22px; }
+        .modal-footer { background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .step-pane { display: none; }
+        .step-pane.active { display: block; }
+        .btn { padding: 8px 16px; font-size: 13.5px; font-weight: 600; border-radius: 4px; cursor: pointer; border: 1px solid transparent; }
+        .btn-next { background-color: #0284c7; color: #ffffff; }
+        .btn-back { background-color: #ffffff; color: #475569; border-color: #cbd5e1; }
+        .btn-submit { background-color: #16a34a; color: #ffffff; }
+        table.clean-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+        table.clean-table th, table.clean-table td { border: 1px solid #e2e8f0; padding: 7px 9px; text-align: left; }
+        table.clean-table th { background-color: #f8fafc; font-weight: 600; }
     </style>
 </head>
 <body>
-    <header class="main-header">
-        <div>
-            <a href="/" class="brand-title">Actuarial &amp; Clinical Risk Underwriting Portal</a>
-            <span style="font-size:12px; color:#adb5bd; margin-left:10px;">Temporary Lab Report Parser &amp; Auto-Delete Log</span>
-        </div>
-        <div class="mono" style="font-size:12px;">Zero Disk Retention (`os.unlink` after zero-byte overwrite)</div>
+    <header class="top-bar">
+        <a href="/" class="brand">Project 01: Health Insurance &amp; Risk Estimator</a>
+        <div class="mono" style="font-size:12px;">Section 4: Temp Lab File Parser</div>
     </header>
 
-    <nav class="nav-bar">
-        <a href="/" class="nav-item">1. Underwriting Calculator</a>
-        <a href="/analytics" class="nav-item">2. Country Model Tables</a>
-        <a href="/explainability" class="nav-item">3. Feature Impact &amp; What-Ifs</a>
-        <a href="/document-vault" class="nav-item active">4. Temp Lab Report Parser</a>
-        <a href="/intro" class="nav-item">5. Developer Notes</a>
-        <a href="/help" class="nav-item">6. Help &amp; User Guide</a>
-        <a href="/docs" class="nav-item">7. REST API Tester (/docs)</a>
+    <nav class="section-nav">
+        <a href="/" class="section-link">1. Estimator Wizard</a>
+        <a href="/analytics" class="section-link">2. Country Models</a>
+        <a href="/explainability" class="section-link">3. Feature Impact</a>
+        <a href="/document-vault" class="section-link active">4. Lab File Parser</a>
+        <a href="/intro" class="section-link">5. Dev Notes</a>
+        <a href="/help" class="section-link">6. Help Guide</a>
+        <a href="/docs" class="section-link">7. API Tester (/docs)</a>
     </nav>
 
-    <div class="content-wrapper">
-        <div class="row-2">
-            <div class="card-box">
-                <div class="card-header">
-                    <span>Scan Medical Note &amp; Auto-Delete File</span>
-                </div>
-                <div class="card-body">
+    <div class="modal-stage">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Zero-Retention Lab File Parser</span>
+                <span class="mono" id="step-label">Step 1 of 3</span>
+            </div>
+
+            <div class="step-bar">
+                <button type="button" class="step-tab active" onclick="goStep(1)" id="tab-1">1. Select File &amp; Terms</button>
+                <button type="button" class="step-tab" onclick="goStep(2)" id="tab-2">2. Deletion Receipt</button>
+                <button type="button" class="step-tab" onclick="goStep(3)" id="tab-3">3. Audit Log</button>
+            </div>
+
+            <form action="/document-vault" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
                     {% if vault_error %}
-                    <div style="background:#f8d7da; border:1px solid #f5c6cb; color:#721c24; padding:10px; margin-bottom:12px;">
+                    <div style="background:#fee2e2; border:1px solid #fca5a5; color:#991b1b; padding:10px; border-radius:4px; margin-bottom:12px;">
                         {{ vault_error }}
                     </div>
                     {% endif %}
-                    <p style="margin-bottom:10px; font-size:13px;">
-                        Upload a lab summary or clinical text file to test the extraction parser (`EphemeralDocumentProcessor`). The file is written to a staging slot, scanned for HbA1c, blood pressure, cholesterol, and chronic disease terms, overwritten with `0x00` bytes, and unlinked from the filesystem.
-                    </p>
-                    <form action="/document-vault" method="post" enctype="multipart/form-data">
-                        <input type="file" name="medical_doc" required style="width:100%; margin-bottom:10px;" />
-                        <label style="display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; margin-bottom:12px;">
+
+                    <!-- STEP 1 -->
+                    <div class="step-pane active" id="pane-1">
+                        <p style="font-size:13px; color:#475569; margin-bottom:12px;">
+                            <strong>Step 1:</strong> Choose a lab text report to scan. The file is parsed in RAM, overwritten with <code>0x00</code> bytes, and deleted via <code>os.unlink</code>.
+                        </p>
+                        <input type="file" name="medical_doc" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px; margin-bottom:12px;" />
+                        <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; background:#f8fafc; padding:10px; border:1px solid #e2e8f0; border-radius:4px;">
                             <input type="checkbox" name="accept_terms" value="true" />
-                            <span>I accept the Terms &amp; Conditions and understand the uploaded file will be deleted immediately after parsing.</span>
+                            <span>I accept the Terms &amp; Conditions and confirm immediate file deletion after marker extraction.</span>
                         </label>
-                        <button type="submit" class="btn-primary">Scan Biomarkers &amp; Delete Document</button>
-                    </form>
-
-                    {% if vault_receipt %}
-                    <div style="border:1px solid #c3e6cb; background:#d4edda; color:#155724; padding:10px; margin-top:14px; font-size:12.5px;">
-                        <strong>Deletion Receipt: {{ vault_receipt.receipt_id }}</strong><br/>
-                        Status: <code>{{ vault_receipt.status }}</code> (On disk: <code>{{ vault_receipt.file_exists_on_disk }}</code>)<br/>
-                        Time held: <code>{{ vault_receipt.retention_duration_ms }} ms</code> | Bytes zeroed: <code>{{ vault_receipt.bytes_purged }}</code><br/>
-                        Detected conditions: <strong>{{ vault_receipt.detected_disease_labels | join(', ') or 'None' }}</strong>
                     </div>
-                    {% endif %}
-                </div>
-            </div>
 
-            <div class="card-box">
-                <div class="card-header">
-                    <span>Recent Deletion Receipts (`document_deletion_audit.json`)</span>
+                    <!-- STEP 2 -->
+                    <div class="step-pane" id="pane-2">
+                        {% if vault_receipt %}
+                        <p style="font-size:13px; color:#166534; font-weight:700; margin-bottom:10px;">
+                            File Deleted Successfully (Receipt: {{ vault_receipt.receipt_id }})
+                        </p>
+                        <table class="clean-table">
+                            <tr><th>Original File</th><td class="mono">{{ vault_receipt.original_filename }}</td></tr>
+                            <tr><th>Deletion Status</th><td class="mono"><strong>{{ vault_receipt.status }}</strong> (On Disk: {{ vault_receipt.file_exists_on_disk }})</td></tr>
+                            <tr><th>Retention Duration</th><td class="mono">{{ vault_receipt.retention_duration_ms }} ms ({{ vault_receipt.bytes_purged }} bytes zeroed)</td></tr>
+                            <tr><th>Detected Conditions</th><td>{{ vault_receipt.detected_disease_labels | join(', ') or 'None' }}</td></tr>
+                        </table>
+                        {% else %}
+                        <p style="color:#64748b; text-align:center; padding:20px;">Upload a document in Step 1 to view its cryptographic deletion receipt here.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- STEP 3 -->
+                    <div class="step-pane" id="pane-3">
+                        <p style="font-size:13px; color:#475569;">
+                            <strong>Step 3:</strong> Non-PII deletion receipts recorded in <code>artifacts/privacy_audit_log.json</code>.
+                        </p>
+                        <table class="clean-table">
+                            <thead><tr><th>Receipt ID</th><th>Bytes</th><th>Held (ms)</th><th>On Disk</th><th>Status</th></tr></thead>
+                            <tbody>
+                                {% for row in audit_log[:8] %}
+                                <tr>
+                                    <td class="mono">{{ row.receipt_id }}</td>
+                                    <td class="mono">{{ row.bytes_purged }} B</td>
+                                    <td class="mono">{{ row.retention_duration_ms }} ms</td>
+                                    <td class="mono">{{ row.file_exists_on_disk }}</td>
+                                    <td class="mono"><strong>{{ row.status }}</strong></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <table class="table-bordered">
-                        <thead>
-                            <tr><th>Receipt ID</th><th>SHA-256 Prefix</th><th>Bytes</th><th>Held (ms)</th><th>On Disk?</th><th>Status</th></tr>
-                        </thead>
-                        <tbody>
-                            {% for row in audit_log %}
-                            <tr>
-                                <td class="mono">{{ row.receipt_id }}</td>
-                                <td class="mono">{{ row.sha256_fingerprint }}</td>
-                                <td class="mono">{{ row.bytes_purged }} B</td>
-                                <td class="mono">{{ row.retention_duration_ms }} ms</td>
-                                <td class="mono">{{ row.file_exists_on_disk }}</td>
-                                <td><span class="badge-success">{{ row.status }}</span></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-back" id="btn-prev" onclick="goStep(cur - 1)" style="visibility:hidden;">&larr; Previous</button>
+                    <div>
+                        <button type="submit" class="btn btn-submit" id="btn-scan">Scan &amp; Delete File &check;</button>
+                        <button type="button" class="btn btn-next" id="btn-next" onclick="goStep(cur + 1)">Next Step &rarr;</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
+
+    <script>
+        let cur = {{ 2 if vault_receipt else 1 }};
+        function goStep(n) {
+            if (n < 1 || n > 3) return;
+            cur = n;
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById('pane-' + i).classList.toggle('active', i === n);
+                document.getElementById('tab-' + i).classList.toggle('active', i === n);
+            }
+            document.getElementById('step-label').textContent = 'Step ' + n + ' of 3';
+            document.getElementById('btn-prev').style.visibility = (n > 1) ? 'visible' : 'hidden';
+            document.getElementById('btn-scan').style.display = (n === 1) ? 'inline-block' : 'none';
+            document.getElementById('btn-next').style.display = (n < 3) ? 'inline-block' : 'none';
+        }
+        goStep(cur);
+    </script>
 </body>
 </html>

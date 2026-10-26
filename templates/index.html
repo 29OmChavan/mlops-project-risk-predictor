@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Health Insurance Cost &amp; Risk Estimator (Actuarial Portal)</title>
+    <title>Health Insurance Cost &amp; Risk Estimator</title>
     <style>
-        /* Pre-2022 Bootstrap 4 / AdminLTE v3 Clinical & Actuarial Portal Theme */
+        /* Clean Step-by-Step Modal Wizard Layout (Project 01 - Clinical Blue Theme) */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #f4f6f9;
-            color: #212529;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #e9eef4;
+            color: #1f2937;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.55;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         code, pre, .mono {
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 12.5px;
         }
-        .main-header {
-            background-color: #343a40;
+        /* Compact Top Navigation Bar */
+        .top-bar {
+            background-color: #1e3a5f;
             color: #ffffff;
-            border-bottom: 3px solid #007bff;
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
@@ -29,250 +32,281 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .brand-title {
-            font-size: 16px;
+        .brand {
+            font-size: 15px;
             font-weight: 700;
             color: #ffffff;
             text-decoration: none;
         }
-        .nav-bar {
+        .section-nav {
             background-color: #ffffff;
-            border-bottom: 1px solid #dee2e6;
+            border-bottom: 1px solid #cbd5e1;
             padding: 0 20px;
             display: flex;
+            justify-content: center;
             flex-wrap: wrap;
             gap: 4px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-        .nav-item {
-            display: inline-block;
+        .section-link {
             padding: 10px 14px;
-            color: #495057;
+            color: #475569;
             text-decoration: none;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 600;
             border-bottom: 3px solid transparent;
         }
-        .nav-item:hover { background-color: #f8f9fa; color: #007bff; }
-        .nav-item.active {
-            color: #007bff;
-            border-bottom-color: #007bff;
-            background-color: #f8f9fa;
+        .section-link:hover { color: #0284c7; background-color: #f8fafc; }
+        .section-link.active { color: #0284c7; border-bottom-color: #0284c7; background-color: #f0f9ff; }
+
+        /* Centered Modal Container */
+        .modal-stage {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 28px 16px 48px;
         }
-        .content-wrapper {
-            max-width: 1280px;
-            margin: 18px auto;
-            padding: 0 16px 40px;
-        }
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1.05fr 1fr;
-            gap: 18px;
-            align-items: start;
-        }
-        .row-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        .row-4 {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-        @media (max-width: 960px) {
-            .row-2, .row-3, .row-4 { grid-template-columns: 1fr; }
-        }
-        /* AdminLTE Card Box */
-        .card-box {
+        .modal-card {
+            width: 100%;
+            max-width: 680px;
             background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            border-top: 3px solid #007bff;
-            border-radius: 3px;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+            overflow: hidden;
         }
-        .card-box.card-info { border-top-color: #17a2b8; }
-        .card-box.card-success { border-top-color: #28a745; }
-        .card-box.card-warning { border-top-color: #ffc107; }
-        .card-header {
-            padding: 10px 15px;
-            border-bottom: 1px solid #dee2e6;
-            background-color: #fdfdfe;
-            font-size: 14px;
-            font-weight: 700;
-            color: #343a40;
+        .modal-header {
+            background-color: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .card-body { padding: 15px; }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        /* Step Progress Bar inside Modal */
+        .step-bar {
+            display: flex;
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .step-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: 1px solid #e2e8f0;
+        }
+        .step-tab:last-child { border-right: none; }
+        .step-tab.active {
+            background-color: #ffffff;
+            color: #0284c7;
+            border-bottom-color: #0284c7;
+            font-weight: 700;
+        }
+        .step-tab.done {
+            color: #15803d;
+        }
+        .modal-body {
+            padding: 22px;
+        }
+        .modal-footer {
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 12px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .step-pane { display: none; }
+        .step-pane.active { display: block; }
+
+        /* Form Elements */
+        .field-group { margin-bottom: 14px; }
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
         label {
             display: block;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #495057;
-            margin-bottom: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 5px;
         }
         input[type="number"], input[type="text"], input[type="file"], select {
             width: 100%;
-            padding: 6px 10px;
-            font-size: 13.5px;
-            color: #495057;
+            padding: 8px 10px;
+            font-size: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
             background-color: #ffffff;
-            border: 1px solid #ced4da;
-            border-radius: 3px;
-            margin-bottom: 10px;
+            color: #0f172a;
         }
         input:focus, select:focus {
-            border-color: #80bdff;
-            outline: 0;
-            box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+            border-color: #0284c7;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(2,132,199,0.15);
         }
-        .btn-primary {
-            background-color: #007bff;
-            border: 1px solid #006fe6;
-            color: #ffffff;
+        .btn {
             padding: 8px 16px;
             font-size: 13.5px;
-            font-weight: 700;
-            border-radius: 3px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .btn-primary:hover { background-color: #0069d9; }
-        .btn-sm {
-            display: inline-block;
-            padding: 4px 10px;
-            font-size: 12px;
             font-weight: 600;
-            border: 1px solid #ced4da;
-            background-color: #f8f9fa;
-            color: #343a40;
-            text-decoration: none;
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
-        }
-        .btn-sm:hover { background-color: #e2e6ea; }
-        .btn-sm.active-country {
-            background-color: #007bff;
-            color: #ffffff;
-            border-color: #006fe6;
-        }
-        .badge {
+            border: 1px solid transparent;
+            text-decoration: none;
             display: inline-block;
-            padding: 3px 7px;
-            font-size: 11.5px;
-            font-weight: 700;
-            border-radius: 3px;
         }
-        .badge-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .badge-warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
-        .badge-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .badge-info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .btn-next { background-color: #0284c7; color: #ffffff; }
+        .btn-next:hover { background-color: #0369a1; }
+        .btn-back { background-color: #ffffff; color: #475569; border-color: #cbd5e1; }
+        .btn-back:hover { background-color: #f1f5f9; }
+        .btn-submit { background-color: #16a34a; color: #ffffff; }
+        .btn-submit:hover { background-color: #15803d; }
 
-        table.table-bordered {
-            width: 100%;
-            border-collapse: collapse;
+        .country-pills {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .country-pill {
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #334155;
+            font-weight: 600;
             font-size: 13px;
+            background: #f8fafc;
         }
-        table.table-bordered th, table.table-bordered td {
-            border: 1px solid #dee2e6;
-            padding: 7px 10px;
-            text-align: left;
-        }
-        table.table-bordered th {
-            background-color: #f8f9fa;
-            font-weight: 700;
-            color: #495057;
-        }
-        table.table-bordered tr:nth-child(even) { background-color: #fcfcfd; }
-
-        .callout-info {
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            border-left: 4px solid #17a2b8;
-            padding: 10px 14px;
-            margin-bottom: 14px;
-            font-size: 13px;
-        }
-        .callout-danger {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-left: 4px solid #dc3545;
-            color: #721c24;
-            padding: 10px 14px;
-            margin-bottom: 14px;
-            font-size: 13px;
+        .country-pill.active {
+            background-color: #e0f2fe;
+            border-color: #0284c7;
+            color: #0369a1;
         }
         .check-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 10px;
-            margin-bottom: 10px;
+            gap: 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 14px;
         }
         .check-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12.5px;
-            font-weight: 600;
+            gap: 7px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        table.clean-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        table.clean-table th, table.clean-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        table.clean-table th { background-color: #f8fafc; font-weight: 600; }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 11.5px;
+            font-weight: 700;
+            border-radius: 4px;
+        }
+        .badge-ok { background-color: #dcfce7; color: #166534; }
+        .badge-warn { background-color: #fef9c3; color: #854d0e; }
+        .badge-err { background-color: #fee2e2; color: #991b1b; }
+        .alert-err {
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+            padding: 10px 14px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
-    <header class="main-header">
-        <div>
-            <a href="/" class="brand-title">Actuarial &amp; Clinical Risk Underwriting Portal</a>
-            <span style="font-size:12px; color:#adb5bd; margin-left:10px;">CatBoost / XGBoost / GradientBoosting Ensemble (v2.0.0)</span>
-        </div>
+    <header class="top-bar">
+        <a href="/" class="brand">Project 01: Health Insurance &amp; Risk Estimator</a>
         <div class="mono" style="font-size:12px;">
-            Active Country: <strong>{{ selected_country }} ({{ countries[selected_country].currency_symbol }})</strong> |
-            Models Trained: <strong>USA, India, UK, Germany</strong>
+            Country: <strong>{{ selected_country }} ({{ countries[selected_country].currency_symbol }})</strong>
         </div>
     </header>
 
-    <nav class="nav-bar">
-        <a href="/?country={{ selected_country }}" class="nav-item active">1. Underwriting Calculator</a>
-        <a href="/analytics?country={{ selected_country }}" class="nav-item">2. Country Model Tables</a>
-        <a href="/explainability?country={{ selected_country }}" class="nav-item">3. Feature Impact &amp; What-Ifs</a>
-        <a href="/document-vault" class="nav-item">4. Temp Lab Report Parser</a>
-        <a href="/intro" class="nav-item">5. Developer Notes</a>
-        <a href="/help" class="nav-item">6. Help &amp; User Guide</a>
-        <a href="/docs" class="nav-item">7. REST API Tester (/docs)</a>
+    <nav class="section-nav">
+        <a href="/?country={{ selected_country }}" class="section-link active">1. Estimator Wizard</a>
+        <a href="/analytics?country={{ selected_country }}" class="section-link">2. Country Models</a>
+        <a href="/explainability?country={{ selected_country }}" class="section-link">3. Feature Impact</a>
+        <a href="/document-vault" class="section-link">4. Lab File Parser</a>
+        <a href="/intro" class="section-link">5. Dev Notes</a>
+        <a href="/help" class="section-link">6. Help Guide</a>
+        <a href="/docs" class="section-link">7. API Tester (/docs)</a>
     </nav>
 
-    <div class="content-wrapper">
-        <div class="callout-info">
-            <strong>Switch Healthcare Country Model:</strong>
-            {% for c_key, c_meta in countries.items() %}
-            <a href="/?country={{ c_key }}" class="btn-sm {% if selected_country == c_key %}active-country{% endif %}" style="margin-left:4px;">{{ c_key }} ({{ c_meta.currency_symbol }})</a>
-            {% endfor %}
-            <span style="float:right;">First time here? Read the <a href="/help" style="color:#007bff;font-weight:700;">Help &amp; User Guide</a>.</span>
-        </div>
+    <div class="modal-stage">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Underwriting Wizard ({{ countries[selected_country].country_name }})</span>
+                <span class="mono" id="step-counter-label">Step 1 of 4</span>
+            </div>
 
-        {% if error_message %}
-        <div class="callout-danger">
-            <strong>Validation Error:</strong> {{ error_message }}
-        </div>
-        {% endif %}
+            <!-- Wizard Step Progress Bar -->
+            <div class="step-bar">
+                <button type="button" class="step-tab active" onclick="goStep(1)" id="tab-step-1">1. Country &amp; Basics</button>
+                <button type="button" class="step-tab" onclick="goStep(2)" id="tab-step-2">2. Body &amp; Plan</button>
+                <button type="button" class="step-tab" onclick="goStep(3)" id="tab-step-3">3. Medical History</button>
+                <button type="button" class="step-tab" onclick="goStep(4)" id="tab-step-4">4. Estimate Output</button>
+            </div>
 
-        <div class="row-2">
-            <!-- Left Form Card -->
-            <div class="card-box">
-                <div class="card-header">
-                    <span>Applicant Profile &amp; Coverage Inputs ({{ countries[selected_country].country_name }})</span>
-                    <span class="badge badge-info">{{ countries[selected_country].currency_code }}</span>
-                </div>
-                <div class="card-body">
-                    <form action="/predict-form" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="country" value="{{ selected_country }}" />
+            <form action="/predict-form" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="country" value="{{ selected_country }}" />
 
-                        <div class="row-3">
+                <div class="modal-body">
+                    {% if error_message %}
+                    <div class="alert-err">{{ error_message }}</div>
+                    {% endif %}
+
+                    <!-- STEP 1: COUNTRY & DEMOGRAPHICS -->
+                    <div class="step-pane active" id="pane-step-1">
+                        <p style="font-size:13px; color:#475569; margin-bottom:12px;">
+                            <strong>Step 1:</strong> Choose your healthcare country and enter basic beneficiary details.
+                        </p>
+                        <label>Select Healthcare Country Ecosystem:</label>
+                        <div class="country-pills">
+                            {% for c_key, c_meta in countries.items() %}
+                            <a href="/?country={{ c_key }}" class="country-pill {% if selected_country == c_key %}active{% endif %}">
+                                {{ c_key }} ({{ c_meta.currency_symbol }})
+                            </a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="field-row">
                             <div>
                                 <label>Age (18 to 100):</label>
                                 <input type="number" name="age" value="{{ form_data.age if form_data else 36 }}" min="18" max="100" required />
@@ -284,38 +318,15 @@
                                     <option value="female" {% if form_data and form_data.sex == 'female' %}selected{% endif %}>Female</option>
                                 </select>
                             </div>
+                        </div>
+
+                        <div class="field-row">
                             <div>
-                                <label>Covered Dependents:</label>
+                                <label>Covered Dependents (0 to 10):</label>
                                 <input type="number" name="children" value="{{ form_data.children if form_data else 1 }}" min="0" max="10" />
                             </div>
-                        </div>
-
-                        <div class="row-3" style="background:#f8f9fa; border:1px solid #dee2e6; padding:10px; margin-bottom:10px;">
                             <div>
-                                <label>Height (cm):</label>
-                                <input type="number" step="0.5" id="inp_h" name="height_cm" value="{{ form_data.height_cm if form_data else 174.0 }}" min="100" max="240" oninput="calcLiveBmi()" style="margin-bottom:0;" />
-                            </div>
-                            <div>
-                                <label>Weight (kg):</label>
-                                <input type="number" step="0.5" id="inp_w" name="weight_kg" value="{{ form_data.weight_kg if form_data else 82.0 }}" min="25" max="250" oninput="calcLiveBmi()" style="margin-bottom:0;" />
-                            </div>
-                            <div>
-                                <label>Calculated BMI:</label>
-                                <div id="live_bmi_box" class="mono" style="padding:6px 8px; background:#fff; border:1px solid #ced4da; font-weight:700; color:#007bff;">27.08 (Overweight)</div>
-                            </div>
-                        </div>
-
-                        <div class="row-2">
-                            <div>
-                                <label>Health Insurance Tier (Public vs. Private):</label>
-                                <select name="insurance_type">
-                                    {% for t_name, t_meta in countries[selected_country].insurance_tiers.items() %}
-                                    <option value="{{ t_name }}" {% if form_data and form_data.insurance_type == t_name %}selected{% endif %}>{{ t_name }} ({{ t_meta.category }})</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div>
-                                <label>Region in {{ selected_country }}:</label>
+                                <label>Residential Region ({{ selected_country }}):</label>
                                 <select name="region">
                                     {% for r in countries[selected_country].regions %}
                                     <option value="{{ r }}" {% if form_data and form_data.region == r %}selected{% endif %}>{{ r }}</option>
@@ -323,8 +334,47 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row-3">
+                    <!-- STEP 2: HEIGHT/WEIGHT BMI & INSURANCE TIER -->
+                    <div class="step-pane" id="pane-step-2">
+                        <p style="font-size:13px; color:#475569; margin-bottom:12px;">
+                            <strong>Step 2:</strong> Enter height and weight (BMI is calculated automatically) and choose a Public or Private insurance tier.
+                        </p>
+                        <div class="field-row">
+                            <div>
+                                <label>Height (cm):</label>
+                                <input type="number" step="0.5" id="inp_h" name="height_cm" value="{{ form_data.height_cm if form_data else 174.0 }}" min="100" max="240" oninput="calcLiveBmi()" />
+                            </div>
+                            <div>
+                                <label>Weight (kg):</label>
+                                <input type="number" step="0.5" id="inp_w" name="weight_kg" value="{{ form_data.weight_kg if form_data else 82.0 }}" min="25" max="250" oninput="calcLiveBmi()" />
+                            </div>
+                        </div>
+
+                        <div class="field-group" style="background:#f0f9ff; border:1px solid #bae6fd; padding:10px 12px; border-radius:4px;">
+                            <span style="font-size:12.5px; color:#0369a1; font-weight:600;">Live Anthropometric BMI:</span>
+                            <span id="live_bmi_box" class="mono" style="font-size:15px; font-weight:700; color:#0284c7; margin-left:8px;">27.08 (Overweight)</span>
+                        </div>
+
+                        <div class="field-group">
+                            <label>Health Insurance Plan Tier (Public vs. Private):</label>
+                            <select name="insurance_type">
+                                {% for t_name, t_meta in countries[selected_country].insurance_tiers.items() %}
+                                <option value="{{ t_name }}" {% if form_data and form_data.insurance_type == t_name %}selected{% endif %}>
+                                    {{ t_name }} ({{ t_meta.category }} - Covers {{ t_meta.oop_coverage_pct }}%)
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: LIFESTYLE, CHRONIC CONDITIONS & LAB FILE -->
+                    <div class="step-pane" id="pane-step-3">
+                        <p style="font-size:13px; color:#475569; margin-bottom:12px;">
+                            <strong>Step 3:</strong> Select lifestyle habits, any pre-existing conditions, and optionally attach a lab note.
+                        </p>
+                        <div class="field-row">
                             <div>
                                 <label>Smoking Status:</label>
                                 <select name="smoker">
@@ -342,6 +392,9 @@
                                     <option value="heavy">Heavy Daily</option>
                                 </select>
                             </div>
+                        </div>
+
+                        <div class="field-row">
                             <div>
                                 <label>Physical Activity:</label>
                                 <select name="activity_level">
@@ -350,17 +403,18 @@
                                     <option value="sedentary">Sedentary</option>
                                 </select>
                             </div>
+                            <div>
+                                <label>Past Surgical / Hospital History:</label>
+                                <select name="past_medical_history">
+                                    <option value="none">No Prior Hospitalizations</option>
+                                    <option value="prior_hospitalization">Prior Hospitalization</option>
+                                    <option value="major_surgery">Past Major Surgery</option>
+                                    <option value="family_hereditary_history">Family Hereditary History</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <label>Past Surgical / Hospitalization History:</label>
-                        <select name="past_medical_history">
-                            <option value="none">No Prior Major Hospitalizations</option>
-                            <option value="prior_hospitalization">Prior Inpatient Hospitalization (Last 3 Yrs)</option>
-                            <option value="major_surgery">Past Major Surgery</option>
-                            <option value="family_hereditary_history">Documented Family Hereditary Risk</option>
-                        </select>
-
-                        <label>Pre-Existing or Chronic Conditions (Check all that apply):</label>
+                        <label>Pre-Existing Conditions:</label>
                         <div class="check-grid">
                             {% for d_key, d_meta in supported_diseases.items() %}
                             <label class="check-item">
@@ -370,65 +424,54 @@
                             {% endfor %}
                         </div>
 
-                        <div style="border:1px solid #bee5eb; background:#f1f9fb; padding:10px; margin-bottom:12px;">
-                            <label style="color:#0c5460;">Optional: Attach Lab Report / Discharge Summary (Auto-Deleted After Scan)</label>
-                            <input type="file" name="medical_doc" accept=".txt,.csv,.json,.md,.log,.pdf" style="margin-bottom:6px;" />
-                            <label class="check-item" style="color:#0c5460;">
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px 12px; border-radius:4px;">
+                            <label>Optional Lab Report Upload (Auto-Deleted After Scan):</label>
+                            <input type="file" name="medical_doc" accept=".txt,.csv,.json,.md,.log,.pdf" style="margin-bottom:8px;" />
+                            <label class="check-item">
                                 <input type="checkbox" name="accept_terms" value="true" />
-                                <span>I accept the Terms &amp; Conditions: extract disease markers in RAM and immediately zero-wipe and delete the uploaded file.</span>
+                                <span>I accept the Terms &amp; Conditions: extract markers and immediately delete the file.</span>
                             </label>
                         </div>
-
-                        <button type="submit" class="btn-primary">Calculate Annual Cost &amp; Feature Breakdown</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Right Results Card -->
-            <div>
-                {% if result %}
-                <div class="card-box card-success">
-                    <div class="card-header">
-                        <span>Underwriting Estimate ({{ result.country_name }} / {{ result.model_used }})</span>
-                        {% if result.risk_tier == 'High Risk' %}
-                        <span class="badge badge-danger">{{ result.risk_tier }}</span>
-                        {% elif result.risk_tier == 'Moderate Risk' %}
-                        <span class="badge badge-warning">{{ result.risk_tier }}</span>
-                        {% else %}
-                        <span class="badge badge-success">{{ result.risk_tier }}</span>
-                        {% endif %}
                     </div>
-                    <div class="card-body">
-                        <div class="row-3" style="margin-bottom:14px;">
-                            <div style="border:1px solid #dee2e6; padding:10px; background:#f8f9fa;">
-                                <div style="font-size:11.5px; color:#6c757d;">Total Annual Medical Exposure</div>
-                                <div class="mono" style="font-size:19px; font-weight:700; color:#007bff;">{{ result.predicted_charges_formatted }}</div>
+
+                    <!-- STEP 4: RESULTS VIEW -->
+                    <div class="step-pane" id="pane-step-4">
+                        {% if result %}
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <strong>Estimate for {{ result.country_name }} ({{ result.model_used }})</strong>
+                            <span class="badge {% if result.risk_tier == 'High Risk' %}badge-err{% elif result.risk_tier == 'Moderate Risk' %}badge-warn{% else %}badge-ok{% endif %}">{{ result.risk_tier }}</span>
+                        </div>
+
+                        <div class="field-row">
+                            <div style="border:1px solid #cbd5e1; padding:12px; border-radius:4px; background:#f8fafc;">
+                                <div style="font-size:12px; color:#64748b;">Gross Annual Exposure</div>
+                                <div class="mono" style="font-size:20px; font-weight:700; color:#0284c7;">{{ result.predicted_charges_formatted }}</div>
                             </div>
-                            <div style="border:1px solid #dee2e6; padding:10px; background:#f8f9fa;">
-                                <div style="font-size:11.5px; color:#6c757d;">Estimated Out-of-Pocket</div>
-                                <div class="mono" style="font-size:19px; font-weight:700; color:#dc3545;">{{ result.currency_symbol }}{{ "{:,.2f}".format(result.estimated_out_of_pocket_local) }}</div>
-                            </div>
-                            <div style="border:1px solid #dee2e6; padding:10px; background:#f8f9fa;">
-                                <div style="font-size:11.5px; color:#6c757d;">Calculated BMI</div>
-                                <div class="mono" style="font-size:17px; font-weight:700;">{{ result.bmi }} ({{ result.bmi_category }})</div>
+                            <div style="border:1px solid #cbd5e1; padding:12px; border-radius:4px; background:#f8fafc;">
+                                <div style="font-size:12px; color:#64748b;">Estimated Out-of-Pocket</div>
+                                <div class="mono" style="font-size:20px; font-weight:700; color:#dc2626;">{{ result.currency_symbol }}{{ "{:,.2f}".format(result.estimated_out_of_pocket_local) }}</div>
                             </div>
                         </div>
 
                         {% if doc_receipt %}
-                        <div style="border:1px solid #c3e6cb; background:#d4edda; color:#155724; padding:8px 12px; margin-bottom:12px; font-size:12.5px;">
-                            <strong>Lab File Auto-Delete Receipt ({{ doc_receipt.receipt_id }}):</strong>
-                            File <code>{{ doc_receipt.original_filename }}</code> was parsed in {{ doc_receipt.retention_duration_ms }} ms and deleted (`file_exists_on_disk={{ doc_receipt.file_exists_on_disk }}`).
-                            Detected conditions: {{ doc_receipt.detected_disease_labels | join(', ') or 'None' }}.
+                        <div style="background:#dcfce7; border:1px solid #86efac; color:#166534; padding:8px 12px; border-radius:4px; margin-bottom:12px; font-size:12.5px;">
+                            <strong>Purge Receipt {{ doc_receipt.receipt_id }}:</strong> <code>{{ doc_receipt.original_filename }}</code> deleted in {{ doc_receipt.retention_duration_ms }} ms (`on_disk={{ doc_receipt.file_exists_on_disk }}`).
                         </div>
                         {% endif %}
 
-                        <h4 style="font-size:13px; margin-bottom:6px;">Marginal Cost Drivers (Baseline: {{ result.currency_symbol }}{{ "{:,.2f}".format(result.explainability.baseline_healthy_charge) }})</h4>
-                        <table class="table-bordered" style="margin-bottom:14px;">
+                        {% if agent_feedback %}
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px 12px; border-radius:4px; margin-bottom:12px; font-size:13px;">
+                            <strong>Underwriting Summary:</strong> {{ agent_feedback.executive_summary }}
+                        </div>
+                        {% endif %}
+
+                        <strong style="font-size:13px;">Top Marginal Cost Drivers:</strong>
+                        <table class="clean-table">
                             <thead>
-                                <tr><th>Factor</th><th>Impact ({{ result.currency_code }})</th><th>Share</th></tr>
+                                <tr><th>Factor</th><th>Cost Delta</th><th>Share</th></tr>
                             </thead>
                             <tbody>
-                                {% for att in result.explainability.local_attributions %}
+                                {% for att in result.explainability.local_attributions[:5] %}
                                 <tr>
                                     <td>{{ att.factor }}</td>
                                     <td class="mono"><strong>{{ att.impact_formatted }}</strong></td>
@@ -437,54 +480,43 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-
-                        <h4 style="font-size:13px; margin-bottom:6px;">Public vs. Private Plan Comparison in {{ result.country_name }}</h4>
-                        <table class="table-bordered" style="margin-bottom:14px;">
-                            <thead>
-                                <tr><th>Plan Tier</th><th>Type</th><th>Covered %</th><th>Est. Out-of-Pocket</th></tr>
-                            </thead>
-                            <tbody>
-                                {% for p in result.insurance_plan_comparisons %}
-                                <tr>
-                                    <td><strong>{{ p.plan_name }}</strong></td>
-                                    <td><span class="badge badge-info">{{ p.category }}</span></td>
-                                    <td class="mono">{{ p.coverage_pct }}%</td>
-                                    <td class="mono">{{ result.currency_symbol }}{{ "{:,.2f}".format(p.estimated_out_of_pocket) }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-                        {% if agent_feedback %}
-                        <div style="border:1px solid #dee2e6; background:#f8f9fa; padding:10px; font-size:13px;">
-                            <strong>Underwriting Summary Note:</strong>
-                            <p style="margin-top:4px;">{{ agent_feedback.executive_summary }}</p>
+                        {% else %}
+                        <div style="text-align:center; padding:24px 10px; color:#64748b;">
+                            Complete Steps 1 to 3 and click <strong>Calculate Estimate</strong> to view your underwriting breakdown here.
                         </div>
                         {% endif %}
                     </div>
                 </div>
-                {% else %}
-                <div class="card-box card-info">
-                    <div class="card-header">
-                        <span>Ready for Calculation ({{ countries[selected_country].country_name }})</span>
-                    </div>
-                    <div class="card-body">
-                        <p style="margin-bottom:10px;">
-                            Enter height (`cm`), weight (`kg`), insurance plan type, lifestyle habits, and any pre-existing conditions on the left, then click <strong>Calculate Annual Cost &amp; Feature Breakdown</strong>.
-                        </p>
-                        <table class="table-bordered">
-                            <tr><th style="width:160px;">Selected Country</th><td>{{ countries[selected_country].country_name }} ({{ countries[selected_country].currency_code }})</td></tr>
-                            <tr><th>Healthcare Structure</th><td>{{ countries[selected_country].system_overview }}</td></tr>
-                            <tr><th>Available Plan Tiers</th><td>{{ countries[selected_country].insurance_tiers.keys() | list | join(', ') }}</td></tr>
-                        </table>
+
+                <!-- Modal Footer with Back / Next Step Controls -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-back" id="btn-prev" onclick="prevStep()" style="visibility:hidden;">&larr; Previous Step</button>
+                    <div>
+                        <button type="button" class="btn btn-next" id="btn-next" onclick="nextStep()">Next Step &rarr;</button>
+                        <button type="submit" class="btn btn-submit" id="btn-calc" style="display:none;">Calculate Estimate &check;</button>
                     </div>
                 </div>
-                {% endif %}
-            </div>
+            </form>
         </div>
     </div>
 
     <script>
+        let currentStep = {{ 4 if result else 1 }};
+
+        function goStep(n) {
+            currentStep = n;
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('pane-step-' + i).classList.toggle('active', i === n);
+                document.getElementById('tab-step-' + i).classList.toggle('active', i === n);
+            }
+            document.getElementById('step-counter-label').textContent = 'Step ' + n + ' of 4';
+            document.getElementById('btn-prev').style.visibility = (n > 1) ? 'visible' : 'hidden';
+            document.getElementById('btn-next').style.display = (n < 3) ? 'inline-block' : 'none';
+            document.getElementById('btn-calc').style.display = (n === 3) ? 'inline-block' : 'none';
+        }
+        function nextStep() { if (currentStep < 4) goStep(currentStep + 1); }
+        function prevStep() { if (currentStep > 1) goStep(currentStep - 1); }
+
         function calcLiveBmi() {
             const h = parseFloat(document.getElementById('inp_h').value || '170') / 100.0;
             const w = parseFloat(document.getElementById('inp_w').value || '70');
@@ -497,6 +529,7 @@
             document.getElementById('live_bmi_box').textContent = bmi.toFixed(2) + ' (' + cat + ')';
         }
         calcLiveBmi();
+        goStep(currentStep);
     </script>
 </body>
 </html>

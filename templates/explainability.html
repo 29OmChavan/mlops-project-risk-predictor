@@ -3,99 +3,144 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Feature Impact &amp; What-Ifs - Health Insurance Risk Portal</title>
+    <title>Feature Impact Wizard - Health Insurance Risk Portal</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #f4f6f9; color: #212529; font-size: 14px; line-height: 1.5; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #e9eef4; color: #1f2937; font-size: 14px; line-height: 1.55; min-height: 100vh; display: flex; flex-direction: column; }
         code, pre, .mono { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; }
-        .main-header { background-color: #343a40; color: #ffffff; border-bottom: 3px solid #007bff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brand-title { font-size: 16px; font-weight: 700; color: #ffffff; text-decoration: none; }
-        .nav-bar { background-color: #ffffff; border-bottom: 1px solid #dee2e6; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 4px; }
-        .nav-item { display: inline-block; padding: 10px 14px; color: #495057; text-decoration: none; font-size: 13.5px; font-weight: 600; border-bottom: 3px solid transparent; }
-        .nav-item:hover { background-color: #f8f9fa; color: #007bff; }
-        .nav-item.active { color: #007bff; border-bottom-color: #007bff; background-color: #f8f9fa; }
-        .content-wrapper { max-width: 1280px; margin: 18px auto; padding: 0 16px 40px; }
-        .card-box { background-color: #ffffff; border: 1px solid #dee2e6; border-top: 3px solid #007bff; border-radius: 3px; margin-bottom: 16px; }
-        .card-header { padding: 10px 15px; border-bottom: 1px solid #dee2e6; background-color: #fdfdfe; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
-        .card-body { padding: 15px; }
-        .btn-sm { display: inline-block; padding: 4px 10px; font-size: 12px; font-weight: 600; border: 1px solid #ced4da; background-color: #f8f9fa; color: #343a40; text-decoration: none; border-radius: 3px; }
-        .btn-sm.active-country { background-color: #007bff; color: #ffffff; border-color: #006fe6; }
-        table.table-bordered { width: 100%; border-collapse: collapse; font-size: 13px; }
-        table.table-bordered th, table.table-bordered td { border: 1px solid #dee2e6; padding: 7px 10px; text-align: left; }
-        table.table-bordered th { background-color: #f8f9fa; font-weight: 700; color: #495057; }
+        .top-bar { background-color: #1e3a5f; color: #ffffff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-size: 15px; font-weight: 700; color: #ffffff; text-decoration: none; }
+        .section-nav { background-color: #ffffff; border-bottom: 1px solid #cbd5e1; padding: 0 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; }
+        .section-link { padding: 10px 14px; color: #475569; text-decoration: none; font-size: 13px; font-weight: 600; border-bottom: 3px solid transparent; }
+        .section-link.active { color: #0284c7; border-bottom-color: #0284c7; background-color: #f0f9ff; }
+        .modal-stage { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 28px 16px 48px; }
+        .modal-card { width: 100%; max-width: 700px; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08); overflow: hidden; }
+        .modal-header { background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 16px; font-weight: 700; color: #0f172a; }
+        .step-bar { display: flex; background-color: #f1f5f9; border-bottom: 1px solid #e2e8f0; }
+        .step-tab { flex: 1; text-align: center; padding: 10px 6px; font-size: 12px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; background: none; border-top: none; border-left: none; border-right: 1px solid #e2e8f0; }
+        .step-tab.active { background-color: #ffffff; color: #0284c7; border-bottom-color: #0284c7; font-weight: 700; }
+        .modal-body { padding: 22px; }
+        .modal-footer { background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .step-pane { display: none; }
+        .step-pane.active { display: block; }
+        .btn { padding: 8px 16px; font-size: 13.5px; font-weight: 600; border-radius: 4px; cursor: pointer; border: 1px solid transparent; text-decoration: none; display: inline-block; }
+        .btn-next { background-color: #0284c7; color: #ffffff; }
+        .btn-back { background-color: #ffffff; color: #475569; border-color: #cbd5e1; }
+        .country-pills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+        .country-pill { text-align: center; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; text-decoration: none; color: #334155; font-weight: 600; font-size: 13px; background: #f8fafc; }
+        .country-pill.active { background-color: #e0f2fe; border-color: #0284c7; color: #0369a1; }
+        table.clean-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+        table.clean-table th, table.clean-table td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; }
+        table.clean-table th { background-color: #f8fafc; font-weight: 600; }
     </style>
 </head>
 <body>
-    <header class="main-header">
-        <div>
-            <a href="/" class="brand-title">Actuarial &amp; Clinical Risk Underwriting Portal</a>
-            <span style="font-size:12px; color:#adb5bd; margin-left:10px;">Marginal Coalition Feature Attribution &amp; Counterfactuals</span>
-        </div>
-        <div class="mono" style="font-size:12px;">Active Country: {{ selected_country }}</div>
+    <header class="top-bar">
+        <a href="/" class="brand">Project 01: Health Insurance &amp; Risk Estimator</a>
+        <div class="mono" style="font-size:12px;">Section 3: Feature Impact ({{ selected_country }})</div>
     </header>
 
-    <nav class="nav-bar">
-        <a href="/?country={{ selected_country }}" class="nav-item">1. Underwriting Calculator</a>
-        <a href="/analytics?country={{ selected_country }}" class="nav-item">2. Country Model Tables</a>
-        <a href="/explainability?country={{ selected_country }}" class="nav-item active">3. Feature Impact &amp; What-Ifs</a>
-        <a href="/document-vault" class="nav-item">4. Temp Lab Report Parser</a>
-        <a href="/intro" class="nav-item">5. Developer Notes</a>
-        <a href="/help" class="nav-item">6. Help &amp; User Guide</a>
-        <a href="/docs" class="nav-item">7. REST API Tester (/docs)</a>
+    <nav class="section-nav">
+        <a href="/?country={{ selected_country }}" class="section-link">1. Estimator Wizard</a>
+        <a href="/analytics?country={{ selected_country }}" class="section-link">2. Country Models</a>
+        <a href="/explainability?country={{ selected_country }}" class="section-link active">3. Feature Impact</a>
+        <a href="/document-vault" class="section-link">4. Lab File Parser</a>
+        <a href="/intro" class="section-link">5. Dev Notes</a>
+        <a href="/help" class="section-link">6. Help Guide</a>
+        <a href="/docs" class="section-link">7. API Tester (/docs)</a>
     </nav>
 
-    <div class="content-wrapper">
-        <div style="margin-bottom:14px;">
-            <strong>Inspect Reference High-Risk Case Across Countries:</strong>
-            {% for c_key in countries.keys() %}
-            <a href="/explainability?country={{ c_key }}" class="btn-sm {% if selected_country == c_key %}active-country{% endif %}">{{ c_key }}</a>
-            {% endfor %}
-        </div>
-
-        <div class="card-box">
-            <div class="card-header">
-                <span>Reference Case Breakdown (Age 46, 175cm / 96kg, BMI {{ sample_result.bmi }}, Smoker, Hypertension + Type 2 Diabetes)</span>
-                <span class="mono">Total Estimate: <strong>{{ sample_result.predicted_charges_formatted }}</strong></span>
+    <div class="modal-stage">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Feature Impact &amp; What-If Simulator ({{ selected_country }})</span>
+                <span class="mono" id="step-label">Step 1 of 3</span>
             </div>
-            <div class="card-body">
-                <p style="margin-bottom:12px;">
-                    To explain why the model outputs <strong>{{ sample_result.predicted_charges_formatted }}</strong> instead of a healthy baseline of <strong>{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(sample_result.explainability.baseline_healthy_charge) }}</strong>, we evaluate the trained estimator by toggling each risk group against the healthy reference baseline and normalizing the marginal deltas so they sum to the exact prediction difference.
-                </p>
 
-                <table class="table-bordered" style="margin-bottom:16px;">
-                    <thead>
-                        <tr><th>Feature / Risk Factor</th><th>Marginal Cost Impact</th><th>Share of Total</th><th>Direction</th></tr>
-                    </thead>
-                    <tbody>
-                        {% for att in sample_result.explainability.local_attributions %}
-                        <tr>
-                            <td><strong>{{ att.factor }}</strong></td>
-                            <td class="mono">{{ att.impact_formatted }}</td>
-                            <td class="mono">{{ att.share_pct }}%</td>
-                            <td class="mono">{{ att.direction }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="step-bar">
+                <button type="button" class="step-tab active" onclick="goStep(1)" id="tab-1">1. Country &amp; Baseline</button>
+                <button type="button" class="step-tab" onclick="goStep(2)" id="tab-2">2. Feature Deltas</button>
+                <button type="button" class="step-tab" onclick="goStep(3)" id="tab-3">3. What-If Savings</button>
+            </div>
 
-                <h4 style="margin-bottom:8px; font-size:13.5px;">Counterfactual "What-If" Savings Table</h4>
-                <table class="table-bordered">
-                    <thead>
-                        <tr><th>Actionable Change</th><th>New Predicted Annual Cost</th><th>Estimated Annual Savings</th><th>Reduction %</th></tr>
-                    </thead>
-                    <tbody>
-                        {% for cf in sample_result.explainability.counterfactual_what_ifs %}
-                        <tr>
-                            <td><strong>{{ cf.intervention }}</strong></td>
-                            <td class="mono">{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(cf.new_predicted_charge) }}</td>
-                            <td class="mono" style="color:#155724; font-weight:700;">{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(cf.annual_savings) }}</td>
-                            <td class="mono">-{{ cf.savings_pct }}%</td>
-                        </tr>
+            <div class="modal-body">
+                <!-- STEP 1 -->
+                <div class="step-pane active" id="pane-1">
+                    <p style="font-size:13px; color:#475569; margin-bottom:10px;">
+                        <strong>Part 1:</strong> Select a country below to inspect how the model decomposes a high-risk profile (Age 46, BMI {{ sample_result.bmi }}, Smoker, Hypertension + Type 2 Diabetes).
+                    </p>
+                    <div class="country-pills">
+                        {% for c_key in countries.keys() %}
+                        <a href="/explainability?country={{ c_key }}" class="country-pill {% if selected_country == c_key %}active{% endif %}">{{ c_key }}</a>
                         {% endfor %}
-                    </tbody>
-                </table>
+                    </div>
+                    <table class="clean-table">
+                        <tr><th>Country Model</th><td>{{ sample_result.country_name }} ({{ sample_result.model_used }})</td></tr>
+                        <tr><th>Healthy Reference Baseline</th><td class="mono">{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(sample_result.explainability.baseline_healthy_charge) }}</td></tr>
+                        <tr><th>Predicted High-Risk Total</th><td class="mono"><strong>{{ sample_result.predicted_charges_formatted }}</strong></td></tr>
+                    </table>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="step-pane" id="pane-2">
+                    <p style="font-size:13px; color:#475569;">
+                        <strong>Part 2:</strong> Marginal cost impact of each individual risk factor relative to the healthy baseline.
+                    </p>
+                    <table class="clean-table">
+                        <thead><tr><th>Risk Factor</th><th>Marginal Impact</th><th>Share %</th></tr></thead>
+                        <tbody>
+                            {% for att in sample_result.explainability.local_attributions %}
+                            <tr>
+                                <td><strong>{{ att.factor }}</strong></td>
+                                <td class="mono">{{ att.impact_formatted }}</td>
+                                <td class="mono">{{ att.share_pct }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="step-pane" id="pane-3">
+                    <p style="font-size:13px; color:#475569;">
+                        <strong>Part 3:</strong> Counterfactual "What-If" savings if specific risk factors are modified.
+                    </p>
+                    <table class="clean-table">
+                        <thead><tr><th>Intervention</th><th>New Annual Cost</th><th>Annual Savings</th></tr></thead>
+                        <tbody>
+                            {% for cf in sample_result.explainability.counterfactual_what_ifs %}
+                            <tr>
+                                <td><strong>{{ cf.intervention }}</strong></td>
+                                <td class="mono">{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(cf.new_predicted_charge) }}</td>
+                                <td class="mono" style="color:#15803d; font-weight:700;">-{{ sample_result.currency_symbol }}{{ "{:,.2f}".format(cf.annual_savings) }} (-{{ cf.savings_pct }}%)</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-back" id="btn-prev" onclick="goStep(cur - 1)" style="visibility:hidden;">&larr; Previous</button>
+                <button type="button" class="btn btn-next" id="btn-next" onclick="goStep(cur + 1)">Next Step &rarr;</button>
             </div>
         </div>
     </div>
+
+    <script>
+        let cur = 1;
+        function goStep(n) {
+            if (n < 1 || n > 3) return;
+            cur = n;
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById('pane-' + i).classList.toggle('active', i === n);
+                document.getElementById('tab-' + i).classList.toggle('active', i === n);
+            }
+            document.getElementById('step-label').textContent = 'Step ' + n + ' of 3';
+            document.getElementById('btn-prev').style.visibility = (n > 1) ? 'visible' : 'hidden';
+            document.getElementById('btn-next').style.visibility = (n < 3) ? 'visible' : 'hidden';
+        }
+    </script>
 </body>
 </html>

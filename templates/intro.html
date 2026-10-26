@@ -3,188 +3,177 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Documentation &amp; API Tester - Health Insurance Risk Portal</title>
+    <title>Notes, Help &amp; API Wizard - Health Insurance Risk Portal</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #f4f6f9; color: #212529; font-size: 14px; line-height: 1.55; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #e9eef4; color: #1f2937; font-size: 14px; line-height: 1.55; min-height: 100vh; display: flex; flex-direction: column; }
         code, pre, .mono { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; }
-        .main-header { background-color: #343a40; color: #ffffff; border-bottom: 3px solid #007bff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brand-title { font-size: 16px; font-weight: 700; color: #ffffff; text-decoration: none; }
-        .nav-bar { background-color: #ffffff; border-bottom: 1px solid #dee2e6; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 4px; }
-        .nav-item { display: inline-block; padding: 10px 14px; color: #495057; text-decoration: none; font-size: 13.5px; font-weight: 600; border-bottom: 3px solid transparent; }
-        .nav-item:hover { background-color: #f8f9fa; color: #007bff; }
-        .nav-item.active { color: #007bff; border-bottom-color: #007bff; background-color: #f8f9fa; }
-        .content-wrapper { max-width: 1280px; margin: 18px auto; padding: 0 16px 40px; }
-        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
-        @media (max-width: 960px) { .row-2 { grid-template-columns: 1fr; } }
-        .card-box { background-color: #ffffff; border: 1px solid #dee2e6; border-top: 3px solid #007bff; border-radius: 3px; margin-bottom: 16px; }
-        .card-header { padding: 10px 15px; border-bottom: 1px solid #dee2e6; background-color: #fdfdfe; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
-        .card-body { padding: 15px; }
-        .btn-primary { background-color: #007bff; border: 1px solid #006fe6; color: #ffffff; padding: 7px 14px; font-size: 13px; font-weight: 700; border-radius: 3px; cursor: pointer; }
-        .btn-sm { display: inline-block; padding: 4px 10px; font-size: 12px; font-weight: 600; border: 1px solid #ced4da; background-color: #f8f9fa; color: #343a40; text-decoration: none; border-radius: 3px; }
-        table.table-bordered { width: 100%; border-collapse: collapse; font-size: 13px; }
-        table.table-bordered th, table.table-bordered td { border: 1px solid #dee2e6; padding: 7px 10px; text-align: left; }
-        table.table-bordered th { background-color: #f8f9fa; font-weight: 700; color: #495057; }
-        pre.code-box { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 12px; overflow-x: auto; white-space: pre-wrap; }
+        .top-bar { background-color: #1e3a5f; color: #ffffff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-size: 15px; font-weight: 700; color: #ffffff; text-decoration: none; }
+        .section-nav { background-color: #ffffff; border-bottom: 1px solid #cbd5e1; padding: 0 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; }
+        .section-link { padding: 10px 14px; color: #475569; text-decoration: none; font-size: 13px; font-weight: 600; border-bottom: 3px solid transparent; }
+        .section-link.active { color: #0284c7; border-bottom-color: #0284c7; background-color: #f0f9ff; }
+        .modal-stage { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 28px 16px 48px; }
+        .modal-card { width: 100%; max-width: 700px; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08); overflow: hidden; }
+        .modal-header { background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 16px; font-weight: 700; color: #0f172a; }
+        .step-bar { display: flex; background-color: #f1f5f9; border-bottom: 1px solid #e2e8f0; }
+        .step-tab { flex: 1; text-align: center; padding: 10px 6px; font-size: 12px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; background: none; border-top: none; border-left: none; border-right: 1px solid #e2e8f0; }
+        .step-tab.active { background-color: #ffffff; color: #0284c7; border-bottom-color: #0284c7; font-weight: 700; }
+        .modal-body { padding: 22px; }
+        .modal-footer { background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .step-pane { display: none; }
+        .step-pane.active { display: block; }
+        .btn { padding: 8px 16px; font-size: 13.5px; font-weight: 600; border-radius: 4px; cursor: pointer; border: 1px solid transparent; text-decoration: none; display: inline-block; }
+        .btn-next { background-color: #0284c7; color: #ffffff; }
+        .btn-back { background-color: #ffffff; color: #475569; border-color: #cbd5e1; }
+        pre.code-box { background-color: #0f172a; color: #e2e8f0; padding: 12px; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <header class="main-header">
-        <div>
-            <a href="/" class="brand-title">Actuarial &amp; Clinical Risk Underwriting Portal</a>
-            <span style="font-size:12px; color:#adb5bd; margin-left:10px;">Developer Notes, User Guide &amp; REST API Tester</span>
-        </div>
+    <header class="top-bar">
+        <a href="/" class="brand">Project 01: Health Insurance &amp; Risk Estimator</a>
         <div class="mono" style="font-size:12px;">v2.0.0</div>
     </header>
 
-    <nav class="nav-bar">
-        <a href="/" class="nav-item">1. Underwriting Calculator</a>
-        <a href="/analytics" class="nav-item">2. Country Model Tables</a>
-        <a href="/explainability" class="nav-item">3. Feature Impact &amp; What-Ifs</a>
-        <a href="/document-vault" class="nav-item">4. Temp Lab Report Parser</a>
-        <a href="/intro" class="nav-item {% if active_page == 'intro' %}active{% endif %}">5. Developer Notes</a>
-        <a href="/help" class="nav-item {% if active_page == 'help' %}active{% endif %}">6. Help &amp; User Guide</a>
-        <a href="/docs" class="nav-item {% if active_page == 'docs' %}active{% endif %}">7. REST API Tester (/docs)</a>
+    <nav class="section-nav">
+        <a href="/" class="section-link">1. Estimator Wizard</a>
+        <a href="/analytics" class="section-link">2. Country Models</a>
+        <a href="/explainability" class="section-link">3. Feature Impact</a>
+        <a href="/document-vault" class="section-link">4. Lab File Parser</a>
+        <a href="/intro" class="section-link {% if active_page == 'intro' %}active{% endif %}">5. Dev Notes</a>
+        <a href="/help" class="section-link {% if active_page == 'help' %}active{% endif %}">6. Help Guide</a>
+        <a href="/docs" class="section-link {% if active_page == 'docs' %}active{% endif %}">7. API Tester (/docs)</a>
     </nav>
 
-    <div class="content-wrapper">
-
-        <!-- TAB 5: DEVELOPER NOTES (/intro) -->
-        {% if active_page == 'intro' %}
-        <div class="card-box">
-            <div class="card-header">
-                <span>Developer Notes: How I Built This Repository</span>
-                <span class="mono">project-01-risk-predictor</span>
+    <div class="modal-stage">
+        <div class="modal-card">
+            {% if active_page == 'intro' %}
+            <div class="modal-header">
+                <span class="modal-title">Developer Notes: How I Built This</span>
+                <span class="mono" id="step-label">Step 1 of 3</span>
             </div>
-            <div class="card-body">
-                <p style="margin-bottom:12px;">
-                    The classic Kaggle US Medical Cost dataset (`age`, `sex`, `bmi`, `children`, `smoker`, `region`) is a great starting point, but if you put a raw 6-field form in front of someone, they immediately hit three limitations: nobody knows their exact BMI off the top of their head, insurance pricing outside the US works completely differently because of statutory/public healthcare, and chronic illnesses like Type 2 Diabetes or hypertension aren't even in the original 6 columns.
-                </p>
-                <p style="margin-bottom:12px;">
-                    One early bug that bit me when deploying the scikit-learn pipeline inside `uvicorn` was `AttributeError: Can't get attribute 'RiskDomainFeatureGenerator' on <module '__main__'>`. Whenever you define a custom `BaseEstimator, TransformerMixin` class inside a training script and pickle it with `joblib`, FastAPI can't unpickle it unless that class lives inside an installable package (`src/risk_predictor/components/data_transformation.py` installed via `pip install -e .`). Moving the transformer into `src/` fixed the container crash for good.
-                </p>
-
-                <table class="table-bordered" style="margin-top:12px;">
-                    <tr>
-                        <th style="width:260px;">1. 5-Stage Baseline Pipeline (`src/risk_predictor/pipeline/`)</th>
-                        <td>Runs data ingestion (stratified split on smoker status), 2-sample Kolmogorov-Smirnov (`ks_2samp`) covariate drift checks, custom interaction feature generation (`is_obese * is_smoker`, `bmi * age`), multi-model GridSearchCV (CatBoost, XGBoost, GradientBoosting, RandomForest), and an R2 &gt;= 0.84 evaluation gate.</td>
-                    </tr>
-                    <tr>
-                        <th>2. Multi-Country Engine (`country_risk_engine.py`)</th>
-                        <td>Trains and serves four separate country regression bundles (`usa_bundle.pkl`, `india_bundle.pkl`, `uk_bundle.pkl`, `germany_bundle.pkl`), converts `height_cm` and `weight_kg` to BMI on the fly, and models Public vs. Private insurance plan tiers.</td>
-                    </tr>
-                    <tr>
-                        <th>3. Marginal Attribution &amp; Temp Lab Parser (`explainability_agent.py`)</th>
-                        <td>Calculates exact marginal cost deltas against a healthy country baseline, generates "What-If" savings scenarios, and parses uploaded lab text files with immediate `0x00` byte overwrite + `os.unlink` deletion.</td>
-                    </tr>
-                </table>
+            <div class="step-bar">
+                <button type="button" class="step-tab active" onclick="goStep(1)" id="tab-1">1. Why 4 Models?</button>
+                <button type="button" class="step-tab" onclick="goStep(2)" id="tab-2">2. Pipeline Stages</button>
+                <button type="button" class="step-tab" onclick="goStep(3)" id="tab-3">3. Unpickle Fix</button>
             </div>
-        </div>
-        {% endif %}
-
-        <!-- TAB 6: HELP & USER GUIDE (/help) -->
-        {% if active_page == 'help' %}
-        <div class="card-box">
-            <div class="card-header">
-                <span>Help &amp; Step-by-Step User Guide</span>
-                <span class="mono">Operator Instructions</span>
-            </div>
-            <div class="card-body">
-                <h4 style="color:#007bff; margin-bottom:6px;">1. How to Calculate an Underwriting Estimate (Tab 1: Underwriting Calculator)</h4>
-                <ul style="margin-left:20px; margin-bottom:14px;">
-                    <li><strong>Step 1 (Pick a Country):</strong> Click `USA ($)`, `India (₹)`, `UK (£)`, or `Germany (€)` in the top bar of Tab 1. Notice how the regions and the Public/Private insurance dropdown update automatically for that country.</li>
-                    <li><strong>Step 2 (Enter Height &amp; Weight):</strong> Type your height in centimeters (`100` to `240` cm) and weight in kilograms (`25` to `250` kg). The blue box next to them calculates your exact BMI and WHO weight category immediately as you type.</li>
-                    <li><strong>Step 3 (Select Lifestyle &amp; Conditions):</strong> Choose smoking status, alcohol intake, activity level, past surgeries, and check any chronic conditions that apply.</li>
-                    <li><strong>Step 4 (Optional Lab Report Upload):</strong> If you attach a `.txt` or `.log` lab report, you <strong>must</strong> check the <em>"I accept the Terms &amp; Conditions"</em> box. Otherwise the form will reject the upload to enforce our zero-retention rule.</li>
-                </ul>
-
-                <h4 style="color:#007bff; margin-bottom:6px;">2. How to Read the Output Tables</h4>
-                <ul style="margin-left:20px; margin-bottom:14px;">
-                    <li><strong>Total Annual Medical Exposure vs. Out-of-Pocket:</strong> Total Exposure is the gross actuarial risk predicted by the regression model. Estimated Out-of-Pocket is what the patient actually pays after their selected Public or Private plan covers its share (`oop_coverage_pct`).</li>
-                    <li><strong>Marginal Cost Drivers Table:</strong> Shows how much each specific factor (e.g. Smoking, BMI, Chronic Conditions, Age) added or subtracted relative to a healthy 30-year-old baseline in that country.</li>
-                </ul>
-
-                <h4 style="color:#007bff; margin-bottom:6px;">3. Testing the JSON API (`/docs`)</h4>
-                <ul style="margin-left:20px;">
-                    <li>Click <a href="/docs" style="color:#007bff;font-weight:700;">Tab 7: REST API Tester (/docs)</a> to send live `GET /health`, `GET /metrics`, `POST /predict`, and `POST /predict-country` calls right inside your browser.</li>
-                </ul>
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- TAB 7: BUILT-IN INTERACTIVE REST API TESTER (/docs) -->
-        {% if active_page == 'docs' %}
-        <div class="card-box">
-            <div class="card-header">
-                <span>Interactive REST API Tester (`/docs`)</span>
-                <div>
-                    <a href="/openapi.json" target="_blank" class="btn-sm">Raw /openapi.json</a>
-                    <a href="/swagger-raw" target="_blank" class="btn-sm">CDN Swagger (/swagger-raw)</a>
+            <div class="modal-body">
+                <div class="step-pane active" id="pane-1">
+                    <h4 style="margin-bottom:8px;">Part 1: Moving Beyond the 6-Column Kaggle Form</h4>
+                    <p>Most insurance cost demos ask the user to type their BMI directly and only price US plans. I replaced manual BMI entry with height (`cm`) and weight (`kg`) inputs, added 8 chronic conditions, and trained four separate country models (`USA`, `India`, `UK`, `Germany`) with Public and Private coverage tiers.</p>
+                </div>
+                <div class="step-pane" id="pane-2">
+                    <h4 style="margin-bottom:8px;">Part 2: 5-Stage Training Pipeline</h4>
+                    <p>The training pipeline runs stratified train/test splitting, two-sample Kolmogorov-Smirnov (`ks_2samp`) drift checks, interaction feature engineering (`is_obese * is_smoker`), multi-model GridSearchCV (CatBoost, XGBoost, GradientBoosting), and an R2 &gt;= 0.84 evaluation check.</p>
+                </div>
+                <div class="step-pane" id="pane-3">
+                    <h4 style="margin-bottom:8px;">Part 3: Fixing the Uvicorn Joblib Unpickle Crash</h4>
+                    <p>Defining custom scikit-learn transformers inside `__main__` breaks `joblib.load()` when FastAPI workers start. Moving `RiskDomainFeatureGenerator` into the installable `src/risk_predictor` package (`pip install -e .`) solved the issue permanently.</p>
                 </div>
             </div>
-            <div class="card-body">
-                <p style="margin-bottom:12px;">
-                    Test the JSON endpoints directly from this page without relying on external CDN scripts.
-                </p>
-                <div class="row-2">
-                    <div>
-                        <div style="border:1px solid #dee2e6; padding:12px; margin-bottom:10px;">
-                            <strong>GET /health, GET /metrics &amp; GET /countries</strong>
-                            <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
-                                <button type="button" class="btn-primary" onclick="callRiskApi('GET', '/health')">GET /health</button>
-                                <button type="button" class="btn-primary" onclick="callRiskApi('GET', '/metrics')">GET /metrics</button>
-                                <button type="button" class="btn-primary" onclick="callRiskApi('GET', '/countries')">GET /countries</button>
-                            </div>
-                        </div>
 
-                        <div style="border:1px solid #dee2e6; padding:12px;">
-                            <strong>POST /predict-country (Sample Multi-Country Payload)</strong>
-                            <p style="font-size:12px; color:#6c757d; margin:4px 0 8px;">Sends `country="India", age=42, height_cm=172, weight_kg=89, diseases=["diabetes_type_2", "hypertension"]`.</p>
-                            <button type="button" class="btn-primary" onclick="callPredictCountry()">Send POST /predict-country</button>
-                        </div>
-                    </div>
-                    <div>
-                        <label style="font-weight:700; font-size:12.5px; display:block; margin-bottom:4px;">Live JSON Response:</label>
-                        <pre id="risk-api-out" class="code-box" style="min-height:280px; max-height:440px; overflow-y:auto;">Click any button on the left to inspect the live FastAPI response.</pre>
-                    </div>
+            {% elif active_page == 'help' %}
+            <div class="modal-header">
+                <span class="modal-title">Step-by-Step User Guide</span>
+                <span class="mono" id="step-label">Step 1 of 3</span>
+            </div>
+            <div class="step-bar">
+                <button type="button" class="step-tab active" onclick="goStep(1)" id="tab-1">1. Using the Wizard</button>
+                <button type="button" class="step-tab" onclick="goStep(2)" id="tab-2">2. Reading Outputs</button>
+                <button type="button" class="step-tab" onclick="goStep(3)" id="tab-3">3. Lab File Upload</button>
+            </div>
+            <div class="modal-body">
+                <div class="step-pane active" id="pane-1">
+                    <h4 style="margin-bottom:8px;">How to Fill the Underwriting Wizard</h4>
+                    <p>In <strong>1. Estimator Wizard</strong>, fill one card at a time: pick your country and age in Step 1, click <strong>Next Step</strong> to enter your height (`cm`) and weight (`kg`) in Step 2, then select any chronic conditions in Step 3 and click <strong>Calculate Estimate</strong>.</p>
+                </div>
+                <div class="step-pane" id="pane-2">
+                    <h4 style="margin-bottom:8px;">Understanding Gross Exposure vs. Out-of-Pocket</h4>
+                    <p><strong>Gross Exposure</strong> is the total predicted annual medical risk. <strong>Estimated Out-of-Pocket</strong> is the remaining cost after your chosen Public or Private plan covers its percentage share.</p>
+                </div>
+                <div class="step-pane" id="pane-3">
+                    <h4 style="margin-bottom:8px;">Uploading a Lab Report Safely</h4>
+                    <p>When attaching a lab report in Step 3 or in <strong>4. Lab File Parser</strong>, check the Terms &amp; Conditions box. The server extracts disease keywords in memory, overwrites the temp file with zeros, and deletes it immediately.</p>
                 </div>
             </div>
-        </div>
-        <script>
-            async function callRiskApi(method, url) {
-                const box = document.getElementById('risk-api-out');
-                box.textContent = method + ' ' + url + ' ...';
-                const r = await fetch(url, { method: method, headers: { 'Accept': 'application/json' } });
-                const j = await r.json();
-                box.textContent = 'HTTP ' + r.status + '\n\n' + JSON.stringify(j, null, 2);
-            }
-            async function callPredictCountry() {
-                const box = document.getElementById('risk-api-out');
-                box.textContent = 'POST /predict-country ...';
-                const r = await fetch('/predict-country', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        country: 'India',
-                        age: 42,
-                        sex: 'male',
-                        height_cm: 172.0,
-                        weight_kg: 89.0,
-                        children: 2,
-                        smoker: 'occasional',
-                        alcohol_consumption: 'social_moderate',
-                        activity_level: 'sedentary',
-                        past_medical_history: 'prior_hospitalization',
-                        insurance_type: 'Private - Individual / Family Floater Gold',
-                        diseases: ['diabetes_type_2', 'hypertension']
-                    })
-                });
-                const j = await r.json();
-                box.textContent = 'HTTP ' + r.status + '\n\n' + JSON.stringify(j, null, 2);
-            }
-        </script>
-        {% endif %}
 
+            {% else %}
+            <div class="modal-header">
+                <span class="modal-title">Interactive REST API Tester (`/docs`)</span>
+                <span class="mono" id="step-label">Step 1 of 2</span>
+            </div>
+            <div class="step-bar">
+                <button type="button" class="step-tab active" onclick="goStep(1)" id="tab-1">1. Select Endpoint &amp; Send</button>
+                <button type="button" class="step-tab" onclick="goStep(2)" id="tab-2">2. Inspect JSON Response</button>
+            </div>
+            <div class="modal-body">
+                <div class="step-pane active" id="pane-1">
+                    <p style="margin-bottom:12px;">Click any endpoint below to fire a live request and automatically advance to Step 2 to inspect the JSON payload:</p>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <button type="button" class="btn btn-next" onclick="runApi('GET', '/health')">1. Test GET /health</button>
+                        <button type="button" class="btn btn-next" onclick="runApi('GET', '/metrics')">2. Test GET /metrics</button>
+                        <button type="button" class="btn btn-next" onclick="runApi('GET', '/countries')">3. Test GET /countries</button>
+                        <button type="button" class="btn btn-next" onclick="runPredictApi()">4. Test POST /predict-country (Sample Payload)</button>
+                    </div>
+                </div>
+                <div class="step-pane" id="pane-2">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong>Live HTTP Response:</strong>
+                        <a href="/openapi.json" target="_blank" style="font-size:12px; color:#0284c7;">View Raw /openapi.json</a>
+                    </div>
+                    <pre id="api-out" class="code-box">Select an endpoint in Step 1 to view its response.</pre>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-back" id="btn-prev" onclick="goStep(cur - 1)" style="visibility:hidden;">&larr; Previous</button>
+                <button type="button" class="btn btn-next" id="btn-next" onclick="goStep(cur + 1)">Next Step &rarr;</button>
+            </div>
+        </div>
     </div>
+
+    <script>
+        const maxSteps = {{ 2 if active_page == 'docs' else 3 }};
+        let cur = 1;
+        function goStep(n) {
+            if (n < 1 || n > maxSteps) return;
+            cur = n;
+            for (let i = 1; i <= maxSteps; i++) {
+                document.getElementById('pane-' + i).classList.toggle('active', i === n);
+                document.getElementById('tab-' + i).classList.toggle('active', i === n);
+            }
+            document.getElementById('step-label').textContent = 'Step ' + n + ' of ' + maxSteps;
+            document.getElementById('btn-prev').style.visibility = (n > 1) ? 'visible' : 'hidden';
+            document.getElementById('btn-next').style.visibility = (n < maxSteps) ? 'visible' : 'hidden';
+        }
+        async function runApi(method, url) {
+            goStep(2);
+            const out = document.getElementById('api-out');
+            out.textContent = 'Requesting ' + method + ' ' + url + ' ...';
+            const r = await fetch(url, { method: method, headers: { 'Accept': 'application/json' } });
+            const j = await r.json();
+            out.textContent = 'HTTP ' + r.status + '\n\n' + JSON.stringify(j, null, 2);
+        }
+        async function runPredictApi() {
+            goStep(2);
+            const out = document.getElementById('api-out');
+            out.textContent = 'POST /predict-country ...';
+            const r = await fetch('/predict-country', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    country: 'India', age: 42, sex: 'male', height_cm: 172.0, weight_kg: 89.0,
+                    children: 2, smoker: 'occasional', alcohol_consumption: 'social_moderate',
+                    activity_level: 'sedentary', past_medical_history: 'prior_hospitalization',
+                    insurance_type: 'Private - Individual / Family Floater Gold',
+                    diseases: ['diabetes_type_2', 'hypertension']
+                })
+            });
+            const j = await r.json();
+            out.textContent = 'HTTP ' + r.status + '\n\n' + JSON.stringify(j, null, 2);
+        }
+    </script>
 </body>
 </html>

@@ -48,5 +48,25 @@
     "file_exists_on_disk": false,
     "status": "PERMANENTLY_DELETED",
     "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-899A0AC044",
+    "sha256_fingerprint": "377a576fbef5e3e3...",
+    "bytes_purged": 94,
+    "retention_duration_ms": 3.21,
+    "deleted_at_utc": "2026-10-26T13:13:23.637956+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-787EC7CBB9",
+    "sha256_fingerprint": "377a576fbef5e3e3...",
+    "bytes_purged": 94,
+    "retention_duration_ms": 2.62,
+    "deleted_at_utc": "2026-10-26T13:14:40.960113+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
   }
 ]
