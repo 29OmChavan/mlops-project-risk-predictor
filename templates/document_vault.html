@@ -75,9 +75,9 @@
                         <p style="font-size:13px; color:#475569; margin-bottom:12px;">
                             <strong>Step 1:</strong> Choose a lab text report to scan. The file is parsed in RAM, overwritten with <code>0x00</code> bytes, and deleted via <code>os.unlink</code>.
                         </p>
-                        <input type="file" name="medical_doc" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px; margin-bottom:12px;" />
+                        <input type="file" name="medical_doc" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px; margin-bottom:12px;" onchange="if(this.files && this.files.length > 0) { document.getElementById('vault_chk_terms').checked = true; }" />
                         <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; background:#f8fafc; padding:10px; border:1px solid #e2e8f0; border-radius:4px;">
-                            <input type="checkbox" name="accept_terms" value="true" />
+                            <input type="checkbox" id="vault_chk_terms" name="accept_terms" value="true" checked />
                             <span>I accept the Terms &amp; Conditions and confirm immediate file deletion after marker extraction.</span>
                         </label>
                     </div>
@@ -143,7 +143,7 @@
             }
             document.getElementById('step-label').textContent = 'Step ' + n + ' of 3';
             document.getElementById('btn-prev').style.visibility = (n > 1) ? 'visible' : 'hidden';
-            document.getElementById('btn-scan').style.display = (n === 1) ? 'inline-block' : 'none';
+            document.getElementById('btn-scan').style.display = 'inline-block';
             document.getElementById('btn-next').style.display = (n < 3) ? 'inline-block' : 'none';
         }
         goStep(cur);

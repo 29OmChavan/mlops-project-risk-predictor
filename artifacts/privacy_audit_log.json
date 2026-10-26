@@ -128,5 +128,65 @@
     "file_exists_on_disk": false,
     "status": "PERMANENTLY_DELETED",
     "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-515759F72D",
+    "sha256_fingerprint": "b29d5307077f00df...",
+    "bytes_purged": 55,
+    "retention_duration_ms": 1.56,
+    "deleted_at_utc": "2026-10-26T14:12:17.797199+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-B575F48708",
+    "sha256_fingerprint": "5e0878955c086c05...",
+    "bytes_purged": 41,
+    "retention_duration_ms": 1.25,
+    "deleted_at_utc": "2026-10-26T14:12:19.992796+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-58FAEEF40E",
+    "sha256_fingerprint": "b29d5307077f00df...",
+    "bytes_purged": 55,
+    "retention_duration_ms": 1.2,
+    "deleted_at_utc": "2026-10-26T14:14:19.583466+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-6480CF9DE3",
+    "sha256_fingerprint": "5e0878955c086c05...",
+    "bytes_purged": 41,
+    "retention_duration_ms": 1.09,
+    "deleted_at_utc": "2026-10-26T14:14:21.808213+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-373591BD54",
+    "sha256_fingerprint": "b29d5307077f00df...",
+    "bytes_purged": 55,
+    "retention_duration_ms": 1.45,
+    "deleted_at_utc": "2026-10-26T14:16:53.089446+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
+  },
+  {
+    "receipt_id": "DEL-7EA5D23DFD",
+    "sha256_fingerprint": "5e0878955c086c05...",
+    "bytes_purged": 41,
+    "retention_duration_ms": 1.15,
+    "deleted_at_utc": "2026-10-26T14:16:55.288478+00:00",
+    "file_exists_on_disk": false,
+    "status": "PERMANENTLY_DELETED",
+    "detected_conditions_count": 2
   }
 ]

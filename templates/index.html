@@ -394,9 +394,9 @@
 
                         <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px 12px; border-radius:4px;">
                             <label>Optional Lab Report Upload (Auto-Deleted After Scan):</label>
-                            <input type="file" name="medical_doc" accept=".txt,.csv,.json,.md,.log,.pdf" style="margin-bottom:8px;" />
+                            <input type="file" name="medical_doc" accept=".txt,.csv,.json,.md,.log,.pdf" style="margin-bottom:8px;" onchange="if(this.files && this.files.length > 0) { document.getElementById('chk_terms').checked = true; }" />
                             <label class="check-item">
-                                <input type="checkbox" name="accept_terms" value="true" />
+                                <input type="checkbox" id="chk_terms" name="accept_terms" value="true" checked />
                                 <span>I accept the Terms &amp; Conditions: extract markers and immediately delete the file.</span>
                             </label>
                         </div>
@@ -479,7 +479,7 @@
     </div>
 
     <script>
-        let currentStep = {{ 4 if result else 1 }};
+        let currentStep = {{ 4 if result else (3 if error_message else 1) }};
 
         function goStep(n) {
             currentStep = n;
@@ -489,8 +489,9 @@
             }
             document.getElementById('step-counter-label').textContent = 'Step ' + n + ' of 4';
             document.getElementById('btn-prev').style.visibility = (n > 1) ? 'visible' : 'hidden';
-            document.getElementById('btn-next').style.display = (n < 3) ? 'inline-block' : 'none';
-            document.getElementById('btn-calc').style.display = (n === 3) ? 'inline-block' : 'none';
+            document.getElementById('btn-next').style.display = (n < 4) ? 'inline-block' : 'none';
+            document.getElementById('btn-calc').style.display = 'inline-block';
+            document.getElementById('btn-calc').textContent = (n === 4) ? 'Recalculate Estimate ✓' : 'Calculate Estimate ✓';
         }
         function nextStep() { if (currentStep < 4) goStep(currentStep + 1); }
         function prevStep() { if (currentStep > 1) goStep(currentStep - 1); }
