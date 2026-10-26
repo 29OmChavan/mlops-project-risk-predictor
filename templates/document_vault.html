@@ -6,31 +6,31 @@
     <title>Lab File Parser Wizard - Health Insurance Risk Portal</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #e9eef4; color: #1f2937; font-size: 14px; line-height: 1.55; min-height: 100vh; display: flex; flex-direction: column; }
-        code, pre, .mono { font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12.5px; }
-        .top-bar { background-color: #1e3a5f; color: #ffffff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brand { font-size: 15px; font-weight: 700; color: #ffffff; text-decoration: none; }
-        .section-nav { background-color: #ffffff; border-bottom: 1px solid #cbd5e1; padding: 0 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; }
-        .section-link { padding: 10px 14px; color: #475569; text-decoration: none; font-size: 13px; font-weight: 600; border-bottom: 3px solid transparent; }
-        .section-link.active { color: #0284c7; border-bottom-color: #0284c7; background-color: #f0f9ff; }
-        .modal-stage { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 28px 16px 48px; }
-        .modal-card { width: 100%; max-width: 680px; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08); overflow: hidden; }
-        .modal-header { background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; }
-        .modal-title { font-size: 16px; font-weight: 700; color: #0f172a; }
-        .step-bar { display: flex; background-color: #f1f5f9; border-bottom: 1px solid #e2e8f0; }
-        .step-tab { flex: 1; text-align: center; padding: 10px 6px; font-size: 12px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; background: none; border-top: none; border-left: none; border-right: 1px solid #e2e8f0; }
-        .step-tab.active { background-color: #ffffff; color: #0284c7; border-bottom-color: #0284c7; font-weight: 700; }
+        body { font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #ffffff; color: #262730; font-size: 14px; line-height: 1.55; min-height: 100vh; display: flex; flex-direction: row; border-top: 3px solid #ff4b4b; }
+        code, pre, .mono { font-family: "Source Code Pro", SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; }
+        .top-bar { display: none; }
+        .section-nav { width: 260px; min-width: 260px; background-color: #f0f2f6; border-right: 1px solid #e0e4ec; padding: 22px 16px; display: flex; flex-direction: column; gap: 6px; min-height: 100vh; }
+        .section-nav::before { content: "Made-With-ML / Risk Suite (v1.4)"; display: block; font-size: 14px; font-weight: 800; color: #262730; padding-bottom: 12px; margin-bottom: 8px; border-bottom: 1px solid #d5dae5; }
+        .section-link { padding: 9px 12px; color: #262730; text-decoration: none; font-size: 13.5px; font-weight: 600; border-radius: 4px; border-left: 4px solid transparent; }
+        .section-link.active { color: #ff4b4b; border-left-color: #ff4b4b; background-color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+        .modal-stage { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 32px 28px 48px; }
+        .modal-card { width: 100%; max-width: 730px; background-color: #ffffff; border: 1px solid #e6eaf1; border-radius: 4px; overflow: hidden; }
+        .modal-header { background-color: #fafafa; border-bottom: 1px solid #e6eaf1; padding: 16px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-title { font-size: 18px; font-weight: 700; color: #262730; }
+        .step-bar { display: flex; background-color: #ffffff; border-bottom: 2px solid #f0f2f6; }
+        .step-tab { flex: 1; text-align: center; padding: 11px 6px; font-size: 13px; font-weight: 600; color: #555867; border-bottom: 3px solid transparent; cursor: pointer; background: none; border-top: none; border-left: none; border-right: none; }
+        .step-tab.active { color: #ff4b4b; border-bottom-color: #ff4b4b; font-weight: 700; }
         .modal-body { padding: 22px; }
-        .modal-footer { background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-footer { background-color: #f8f9fb; border-top: 1px solid #e6eaf1; padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; }
         .step-pane { display: none; }
         .step-pane.active { display: block; }
-        .btn { padding: 8px 16px; font-size: 13.5px; font-weight: 600; border-radius: 4px; cursor: pointer; border: 1px solid transparent; }
-        .btn-next { background-color: #0284c7; color: #ffffff; }
-        .btn-back { background-color: #ffffff; color: #475569; border-color: #cbd5e1; }
-        .btn-submit { background-color: #16a34a; color: #ffffff; }
+        .btn { padding: 8px 16px; font-size: 13.5px; font-weight: 600; border-radius: 4px; cursor: pointer; border: 1px solid #d5dae5; }
+        .btn-next { background-color: #ff4b4b; color: #ffffff; border-color: #ff4b4b; }
+        .btn-back { background-color: #ffffff; color: #262730; border-color: #d5dae5; }
+        .btn-submit { background-color: #09ab3b; color: #ffffff; border-color: #09ab3b; }
         table.clean-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
-        table.clean-table th, table.clean-table td { border: 1px solid #e2e8f0; padding: 7px 9px; text-align: left; }
-        table.clean-table th { background-color: #f8fafc; font-weight: 600; }
+        table.clean-table th, table.clean-table td { border: 1px solid #e6eaf1; padding: 7px 9px; text-align: left; }
+        table.clean-table th { background-color: #f0f2f6; font-weight: 600; }
     </style>
 </head>
 <body>

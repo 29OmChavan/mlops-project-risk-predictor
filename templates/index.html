@@ -5,125 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Health Insurance Cost &amp; Risk Estimator</title>
     <style>
-        /* Clean Step-by-Step Modal Wizard Layout (Project 01 - Clinical Blue Theme) */
+        /* Project 01: 2021 Streamlit Left-Sidebar + Made-With-ML / Evidently AI Workbench */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #e9eef4;
-            color: #1f2937;
+            font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #ffffff;
+            color: #262730;
             font-size: 14px;
             line-height: 1.55;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            border-top: 3px solid #ff4b4b;
         }
         code, pre, .mono {
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-family: "Source Code Pro", SFMono-Regular, Menlo, Consolas, monospace;
             font-size: 12.5px;
         }
-        /* Compact Top Navigation Bar */
-        .top-bar {
-            background-color: #1e3a5f;
-            color: #ffffff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .brand {
-            font-size: 15px;
-            font-weight: 700;
-            color: #ffffff;
-            text-decoration: none;
-        }
+        /* Classic 2021 Streamlit Left Sidebar */
+        .top-bar { display: none; }
         .section-nav {
-            background-color: #ffffff;
-            border-bottom: 1px solid #cbd5e1;
-            padding: 0 20px;
+            width: 260px;
+            min-width: 260px;
+            background-color: #f0f2f6;
+            border-right: 1px solid #e0e4ec;
+            padding: 22px 16px;
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 4px;
+            flex-direction: column;
+            gap: 6px;
+            min-height: 100vh;
+        }
+        .section-nav::before {
+            content: "Made-With-ML / Risk Suite (v1.4)";
+            display: block;
+            font-size: 14px;
+            font-weight: 800;
+            color: #262730;
+            padding-bottom: 12px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #d5dae5;
         }
         .section-link {
-            padding: 10px 14px;
-            color: #475569;
+            padding: 9px 12px;
+            color: #262730;
             text-decoration: none;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 600;
-            border-bottom: 3px solid transparent;
+            border-radius: 4px;
+            border-left: 4px solid transparent;
         }
-        .section-link:hover { color: #0284c7; background-color: #f8fafc; }
-        .section-link.active { color: #0284c7; border-bottom-color: #0284c7; background-color: #f0f9ff; }
+        .section-link:hover { background-color: #e2e6f0; color: #ff4b4b; }
+        .section-link.active {
+            background-color: #ffffff;
+            color: #ff4b4b;
+            border-left-color: #ff4b4b;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
 
-        /* Centered Modal Container */
+        /* Streamlit Main Right Stage */
         .modal-stage {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 28px 16px 48px;
+            padding: 32px 28px 48px;
+            background-color: #ffffff;
         }
         .modal-card {
             width: 100%;
-            max-width: 680px;
+            max-width: 730px;
             background-color: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e6eaf1;
+            border-radius: 4px;
+            box-shadow: none;
             overflow: hidden;
         }
         .modal-header {
-            background-color: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 14px 22px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #e6eaf1;
+            padding: 16px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .modal-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
-            color: #0f172a;
+            color: #262730;
         }
-        /* Step Progress Bar inside Modal */
+        /* Streamlit st.tabs Step Bar */
         .step-bar {
             display: flex;
-            background-color: #f1f5f9;
-            border-bottom: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            border-bottom: 2px solid #f0f2f6;
+            padding: 0 12px;
         }
         .step-tab {
             flex: 1;
             text-align: center;
-            padding: 10px 6px;
-            font-size: 12px;
+            padding: 11px 6px;
+            font-size: 13px;
             font-weight: 600;
-            color: #64748b;
+            color: #555867;
             border-bottom: 3px solid transparent;
             cursor: pointer;
             background: none;
             border-top: none;
             border-left: none;
-            border-right: 1px solid #e2e8f0;
+            border-right: none;
         }
-        .step-tab:last-child { border-right: none; }
         .step-tab.active {
-            background-color: #ffffff;
-            color: #0284c7;
-            border-bottom-color: #0284c7;
+            color: #ff4b4b;
+            border-bottom-color: #ff4b4b;
             font-weight: 700;
         }
-        .step-tab.done {
-            color: #15803d;
-        }
-        .modal-body {
-            padding: 22px;
-        }
+        .step-tab.done { color: #09ab3b; }
+        .modal-body { padding: 22px; }
         .modal-footer {
-            background-color: #f8fafc;
-            border-top: 1px solid #e2e8f0;
+            background-color: #f8f9fb;
+            border-top: 1px solid #e6eaf1;
             padding: 12px 22px;
             display: flex;
             justify-content: space-between;
@@ -132,35 +132,33 @@
         .step-pane { display: none; }
         .step-pane.active { display: block; }
 
-        /* Form Elements */
         .field-group { margin-bottom: 14px; }
         .field-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 14px;
         }
-        @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
         label {
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: #334155;
+            color: #262730;
             margin-bottom: 5px;
         }
         input[type="number"], input[type="text"], input[type="file"], select {
             width: 100%;
             padding: 8px 10px;
             font-size: 14px;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #d5dae5;
             border-radius: 4px;
-            background-color: #ffffff;
-            color: #0f172a;
+            background-color: #f0f2f6;
+            color: #262730;
         }
         input:focus, select:focus {
-            border-color: #0284c7;
+            border-color: #ff4b4b;
+            background-color: #ffffff;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(2,132,199,0.15);
         }
         .btn {
             padding: 8px 16px;
@@ -168,16 +166,15 @@
             font-weight: 600;
             border-radius: 4px;
             cursor: pointer;
-            border: 1px solid transparent;
+            border: 1px solid #d5dae5;
             text-decoration: none;
             display: inline-block;
         }
-        .btn-next { background-color: #0284c7; color: #ffffff; }
-        .btn-next:hover { background-color: #0369a1; }
-        .btn-back { background-color: #ffffff; color: #475569; border-color: #cbd5e1; }
-        .btn-back:hover { background-color: #f1f5f9; }
-        .btn-submit { background-color: #16a34a; color: #ffffff; }
-        .btn-submit:hover { background-color: #15803d; }
+        .btn-next { background-color: #ff4b4b; color: #ffffff; border-color: #ff4b4b; }
+        .btn-next:hover { background-color: #e03e3e; }
+        .btn-back { background-color: #ffffff; color: #262730; border-color: #d5dae5; }
+        .btn-back:hover { border-color: #ff4b4b; color: #ff4b4b; }
+        .btn-submit { background-color: #09ab3b; color: #ffffff; border-color: #09ab3b; }
 
         .country-pills {
             display: grid;
@@ -188,67 +185,38 @@
         .country-pill {
             text-align: center;
             padding: 8px;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #d5dae5;
             border-radius: 4px;
             text-decoration: none;
-            color: #334155;
+            color: #262730;
             font-weight: 600;
             font-size: 13px;
-            background: #f8fafc;
+            background: #f0f2f6;
         }
         .country-pill.active {
-            background-color: #e0f2fe;
-            border-color: #0284c7;
-            color: #0369a1;
+            background-color: #fff0f0;
+            border-color: #ff4b4b;
+            color: #ff4b4b;
         }
         .check-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: #f8f9fb;
+            border: 1px solid #e6eaf1;
             padding: 12px;
             border-radius: 4px;
             margin-bottom: 14px;
         }
-        .check-item {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-        table.clean-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            margin-top: 8px;
-        }
-        table.clean-table th, table.clean-table td {
-            border: 1px solid #e2e8f0;
-            padding: 8px 10px;
-            text-align: left;
-        }
-        table.clean-table th { background-color: #f8fafc; font-weight: 600; }
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            font-size: 11.5px;
-            font-weight: 700;
-            border-radius: 4px;
-        }
-        .badge-ok { background-color: #dcfce7; color: #166534; }
-        .badge-warn { background-color: #fef9c3; color: #854d0e; }
-        .badge-err { background-color: #fee2e2; color: #991b1b; }
-        .alert-err {
-            background-color: #fee2e2;
-            border: 1px solid #fca5a5;
-            color: #991b1b;
-            padding: 10px 14px;
-            border-radius: 4px;
-            margin-bottom: 14px;
-            font-size: 13px;
-        }
+        .check-item { display: flex; align-items: center; gap: 7px; font-size: 13px; }
+        table.clean-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+        table.clean-table th, table.clean-table td { border: 1px solid #e6eaf1; padding: 8px 10px; text-align: left; }
+        table.clean-table th { background-color: #f0f2f6; font-weight: 600; }
+        .badge { display: inline-block; padding: 3px 8px; font-size: 11.5px; font-weight: 700; border-radius: 4px; }
+        .badge-ok { background-color: #dff6dd; color: #09ab3b; }
+        .badge-warn { background-color: #fff4ce; color: #8a6d3b; }
+        .badge-err { background-color: #fde7e9; color: #d13438; }
+        .alert-err { background-color: #fde7e9; border: 1px solid #f1707b; color: #a80000; padding: 10px 14px; border-radius: 4px; margin-bottom: 14px; font-size: 13px; }
     </style>
 </head>
 <body>
